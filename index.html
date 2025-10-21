@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portal Inteligente FAIS - Herramienta de análisis y gestión de recursos FAIS y FORTAMUN">
+    <title>Portal Inteligente FAIS | Ramo 33</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">PORTAL INTELIGENTE FAIS</div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="#inicio" class="nav-link active">PÁGINA PRINCIPAL</a></li>
+                <li class="nav-dropdown">
+                    <a href="#reportes" class="nav-link">REPORTE NACIONAL FAIS</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#informes">INFORMES FAIS</a></li>
+                        <li><a href="#indigenas">INDÍGENAS</a></li>
+                    </ul>
+                </li>
+                <li><a href="https://gobiernodigitalinnovacion.github.io/GobiAsistente/fais.html" class="nav-link" target="_blank">GobiFAIS</a></li>
+                <li><a href="https://gobiernodigitalinnovacion.github.io/GobiAsistente/gobiasistente.html" class="nav-link" target="_blank">Copilots México</a></li>
+                <li><a href="https://gobiernodigitaleinnovacion.com/" class="nav-link" target="_blank">EMPRESA</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title">RAMO 33<br>FAIS Y FORTAMUN</h1>
+            <div class="hero-buttons">
+                <a href="#contacto" class="btn btn-primary">SOLICITAR INFORMES</a>
+                <a href="#video" class="btn btn-secondary">Agendar Video Llamada</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section id="video" class="section video-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Dashboard Interactivo RAMO 33</h2>
+                <p>Herramienta actualizada trimestralmente con datos oficiales de SHCP</p>
+            </div>
+            <div class="video-container">
+                <iframe
+                    src="https://www.youtube.com/embed/XdMGKZpugeU"
+                    title="Dashboard RAMO 33"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Power BI Dashboard Section -->
+    <section id="dashboard" class="section dashboard-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>RAMO 33: EVOLUCIÓN Y DESEMPEÑO 2020 - 2025</h2>
+                <p>Dashboard interactivo con análisis detallado de recursos FAIS</p>
+            </div>
+            <div class="powerbi-container">
+                <iframe
+                    title="Dashboard FAIS Principal"
+                    src="https://app.fabric.microsoft.com/view?r=eyJrIjoiMjEwMGJlZGMtNmE0NS00MmU5LTk4NmMtMjVhNmI3YWE2OGRjIiwidCI6ImIwODMwZjgyLWM0OGQtNGU5ZC1iYTc0LTVlMjVmYmYzZmIzYiIsImMiOjR9"
+                    frameborder="0"
+                    allowFullScreen="true">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- GobiFAIS Section -->
+    <section id="gobifais" class="section feature-section">
+        <div class="container">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>GobiFAIS</h3>
+                    <p>Asistente virtual inteligente disponible 24/7 para consultas sobre gestión de recursos FAIS</p>
+                    <a href="https://gobiernodigitalinnovacion.github.io/GobiAsistente/fais.html" class="btn btn-outline" target="_blank">Acceder a GobiFAIS</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Copilots México</h3>
+                    <p>Herramientas de inteligencia artificial para análisis de programas federales</p>
+                    <a href="https://gobiernodigitalinnovacion.github.io/GobiAsistente/gobiasistente.html" class="btn btn-outline" target="_blank">Acceder a Copilots</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Informes FAIS Section -->
+    <section id="informes" class="section informes-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Generador de Informes FAIS</h2>
+                <p>Crea informes detallados a nivel estatal y municipal con datos actualizados</p>
+            </div>
+            <div class="informes-content">
+                <div class="informes-description">
+                    <h3>Informes Personalizados</h3>
+                    <ul class="features-list">
+                        <li>Análisis por estado y municipio</li>
+                        <li>Evolución de recursos 2020-2025</li>
+                        <li>Clasificación por tipo de proyecto</li>
+                        <li>Datos oficiales de SHCP</li>
+                    </ul>
+                </div>
+                <div class="informes-action">
+                    <a href="https://stindicadores.blob.core.windows.net/contenedor-analisis-fais/faisporestado.html?sp=r&st=2024-11-04T17:52:07Z&se=2028-11-05T01:52:07Z&spr=https&sv=2022-11-02&sr=c&sig=OE9IIEtUgY%2FbpGO58J6k61trE1OEBXGYy9gHqvZzYUw%3D"
+                       class="btn btn-primary btn-large"
+                       target="_blank">
+                        GENERAR INFORME
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Normatividad Section -->
+    <section id="normatividad" class="section normatividad-section">
+        <div class="container">
+            <h2>Marco Normativo</h2>
+            <div class="docs-grid">
+                <a href="#" class="doc-card">
+                    <span class="doc-icon">📄</span>
+                    <span class="doc-title">Ley de Coordinación Fiscal</span>
+                </a>
+                <a href="#" class="doc-card">
+                    <span class="doc-icon">📋</span>
+                    <span class="doc-title">Lineamientos FAIS 2025</span>
+                </a>
+                <a href="#" class="doc-card">
+                    <span class="doc-icon">🗺️</span>
+                    <span class="doc-title">ZAP 2025</span>
+                </a>
+                <a href="#" class="doc-card">
+                    <span class="doc-icon">📊</span>
+                    <span class="doc-title">SHCP - Informes Trimestrales</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="section contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Solicitar Informes</h2>
+                <p>¿Necesitas información específica o asistencia personalizada?</p>
+            </div>
+            <div class="contact-buttons">
+                <a href="#" class="btn btn-primary">Enviar Solicitud</a>
+                <a href="#" class="btn btn-outline">Agendar Videollamada</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Portal Inteligente FAIS</h4>
+                    <p>Herramienta de análisis y gestión de recursos del Ramo 33</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="#informes">Informes</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Desarrollado por</h4>
+                    <a href="https://gobiernodigitaleinnovacion.com/" target="_blank" class="footer-brand">
+                        Gobierno Digital e Innovación
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Portal Inteligente FAIS. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
