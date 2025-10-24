@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard de Análisis de Indicadores FAIS con Inteligencia Artificial">
+    <title>Análisis de Indicadores FAIS | Portal Inteligente</title>
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #0f5e9c 0%, #1e88e5 100%);
+            padding: 1.2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .navbar .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Header Section */
+        .page-header {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            color: #0f5e9c;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Filters Section */
+        .filters-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .filters-section h2 {
+            color: #0f5e9c;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: #0f5e9c;
+            box-shadow: 0 0 0 3px rgba(15, 94, 156, 0.1);
+        }
+
+        .filter-group select:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 180px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0f5e9c 0%, #1e88e5 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(15, 94, 156, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(15, 94, 156, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #34d058 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-success:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn.loading .spinner {
+            display: inline-block;
+        }
+
+        /* Results Section */
+        .results-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            margin-bottom: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tabs::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .tabs::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .tabs::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-button:hover {
+            color: #0f5e9c;
+            background-color: rgba(15, 94, 156, 0.05);
+        }
+
+        .tab-button.active {
+            color: #0f5e9c;
+            border-bottom-color: #0f5e9c;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Indicators Grid */
+        .indicators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .indicator-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #0f5e9c;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .indicator-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .indicator-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .indicator-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f5e9c;
+            margin-bottom: 0.5rem;
+        }
+
+        .indicator-description {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* AI Analysis Section */
+        .ai-analysis {
+            padding: 1.5rem;
+        }
+
+        .ai-analysis h3 {
+            color: #0f5e9c;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ai-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #1e88e5;
+        }
+
+        .ai-section h4 {
+            color: #0f5e9c;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ai-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            text-align: justify;
+            color: #333;
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .status-message.active {
+            display: block;
+        }
+
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .status-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        /* Loading Spinner */
+        .loading-container {
+            text-align: center;
+            padding: 3rem;
+            display: none;
+        }
+
+        .loading-container.active {
+            display: block;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #0f5e9c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        /* Charts */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 1.5rem 0;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1a2332 0%, #2a4a6a 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-brand {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-brand:hover {
+            opacity: 0.8;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .indicators-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand"><i class="fas fa-chart-line"></i> PORTAL INTELIGENTE FAIS</div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> INICIO</a></li>
+                <li><a href="faisporestado.html" class="nav-link"><i class="fas fa-map-marked-alt"></i> ANÁLISIS POR ESTADO</a></li>
+                <li><a href="#" class="nav-link"><i class="fas fa-chart-bar"></i> INDICADORES</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><i class="fas fa-chart-pie"></i> Análisis de Indicadores FAIS</h1>
+            <p>Análisis avanzado con Inteligencia Artificial GPT-4o-mini</p>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <h2><i class="fas fa-filter"></i> Filtros de Análisis</h2>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="estadoSelect"><i class="fas fa-map-marker-alt"></i> Estado</label>
+                    <select id="estadoSelect" onchange="cargarDatos()">
+                        <option value="">Seleccione un estado...</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="cicloSelect"><i class="fas fa-calendar-alt"></i> Ciclo del Recurso</label>
+                    <select id="cicloSelect" disabled onchange="actualizarFiltros()">
+                        <option value="">Seleccione ciclo...</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="programaSelect"><i class="fas fa-clipboard-list"></i> Programa Presupuestario</label>
+                    <select id="programaSelect" disabled onchange="toggleMunicipioFilter()">
+                        <option value="">Seleccione programa...</option>
+                    </select>
+                </div>
+                <div class="filter-group" id="municipioContainer" style="display: none;">
+                    <label for="municipioSelect"><i class="fas fa-city"></i> Municipio</label>
+                    <select id="municipioSelect" disabled onchange="habilitarBotones()">
+                        <option value="">Seleccione municipio...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" id="clearBtn" class="btn btn-secondary" onclick="limpiarFiltros()">
+                    <i class="fas fa-redo"></i> <span>Limpiar Filtros</span>
+                </button>
+                <button type="button" id="generateIndicatorsBtn" class="btn btn-primary" onclick="generarIndicadores()" disabled>
+                    <div class="spinner"></div>
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="text">Generar Indicadores</span>
+                </button>
+                <button type="button" id="downloadExcelBtn" class="btn btn-success" onclick="descargarExcel()" disabled>
+                    <div class="spinner"></div>
+                    <i class="fas fa-file-excel"></i>
+                    <span class="text">Exportar Excel</span>
+                </button>
+                <button type="button" id="downloadPdfBtn" class="btn btn-danger" onclick="descargarPDF()" disabled>
+                    <div class="spinner"></div>
+                    <i class="fas fa-file-pdf"></i>
+                    <span class="text">Descargar PDF</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="statusMessage" class="status-message"></div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingContainer" class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Cargando datos...</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="results-section">
+            <div class="tabs-container">
+                <div class="tabs" id="tabsContainer">
+                    <button class="tab-button active" onclick="switchTab('resumen')">
+                        <i class="fas fa-file-alt"></i> Resumen
+                    </button>
+                    <button class="tab-button" onclick="switchTab('indicadores')">
+                        <i class="fas fa-tachometer-alt"></i> Indicadores
+                    </button>
+                    <button class="tab-button" onclick="switchTab('graficas')">
+                        <i class="fas fa-chart-line"></i> Gráficas
+                    </button>
+                    <button class="tab-button" onclick="switchTab('analisis-ia')">
+                        <i class="fas fa-robot"></i> Análisis IA
+                    </button>
+                </div>
+            </div>
+
+            <div id="tab-resumen" class="tab-content active"></div>
+            <div id="tab-indicadores" class="tab-content"></div>
+            <div id="tab-graficas" class="tab-content"></div>
+            <div id="tab-analisis-ia" class="tab-content"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Portal Inteligente FAIS</h4>
+                    <p>Herramienta de análisis avanzado de indicadores y gestión de recursos del Ramo 33</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="faisporestado.html">Análisis por Estado</a></li>
+                        <li><a href="#">Indicadores</a></li>
+                        <li><a href="index.html#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Desarrollado por</h4>
+                    <a href="https://gobiernodigitaleinnovacion.com/" target="_blank" class="footer-brand">
+                        Gobierno Digital e Innovación
+                    </a>
+                    <p style="margin-top: 1rem;">juanheriberto.rosas@gobiernodigitaleinnovacion.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Portal Inteligente FAIS. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            AZURE_OPENAI_API_KEY: "de7bb7a3b62e409e890737a2a4f7d3be",
+            AZURE_OPENAI_ENDPOINT: "https://opeanaihtmlautomatizados.openai.azure.com/",
+            AZURE_OPENAI_API_VERSION: "2024-02-15-preview",
+            AZURE_OPENAI_DEPLOYMENT_NAME: "gpt-4o-minihtmlautomatizado"
+        };
+
+        // Azure Blob Storage Configuration
+        const baseUrl = 'https://stindicadores.blob.core.windows.net/estados-fais/';
+        const sasToken = 'sp=r&st=2024-10-30T21:15:16Z&se=2026-10-31T05:15:16Z&spr=https&sv=2022-11-02&sr=c&sig=okiG4MWLVsgE37DUov5YBZcbXqjYOd%2BKcOnNh0TYN2s%3D';
+
+        // Estados mapping to file names
+        const estadosMapping = {
+            'Aguascalientes': 'FAIS_Aguascalientes.xlsx',
+            'Baja California': 'FAIS_Baja_California.xlsx',
+            'Baja California Sur': 'FAIS_Baja_California_Sur.xlsx',
+            'Campeche': 'FAIS_Campeche.xlsx',
+            'Chiapas': 'FAIS_Chiapas.xlsx',
+            'Chihuahua': 'FAIS_Chihuahua.xlsx',
+            'Ciudad de México': 'FAIS_Ciudad_de_México.xlsx',
+            'Coahuila de Zaragoza': 'FAIS_Coahuila_de_Zaragoza.xlsx',
+            'Colima': 'FAIS_Colima.xlsx',
+            'Durango': 'FAIS_Durango.xlsx',
+            'Guanajuato': 'FAIS_Guanajuato.xlsx',
+            'Guerrero': 'FAIS_Guerrero.xlsx',
+            'Hidalgo': 'FAIS_Hidalgo.xlsx',
+            'Jalisco': 'FAIS_Jalisco.xlsx',
+            'México': 'FAIS_México.xlsx',
+            'Michoacán de Ocampo': 'FAIS_Michoacán_de_Ocampo.xlsx',
+            'Morelos': 'FAIS_Morelos.xlsx',
+            'Nayarit': 'FAIS_Nayarit.xlsx',
+            'Nuevo León': 'FAIS_Nuevo_León.xlsx',
+            'Oaxaca': 'FAIS_Oaxaca.xlsx',
+            'Puebla': 'FAIS_Puebla.xlsx',
+            'Querétaro': 'FAIS_Querétaro.xlsx',
+            'Quintana Roo': 'FAIS_Quintana_Roo.xlsx',
+            'San Luis Potosí': 'FAIS_San_Luis_Potosí.xlsx',
+            'Sinaloa': 'FAIS_Sinaloa.xlsx',
+            'Sonora': 'FAIS_Sonora.xlsx',
+            'Tabasco': 'FAIS_Tabasco.xlsx',
+            'Tamaulipas': 'FAIS_Tamaulipas.xlsx',
+            'Tlaxcala': 'FAIS_Tlaxcala.xlsx',
+            'Veracruz de Ignacio de la Llave': 'FAIS_Veracruz_de_Ignacio_de_la_Llave.xlsx',
+            'Yucatán': 'FAIS_Yucatán.xlsx',
+            'Zacatecas': 'FAIS_Zacatecas.xlsx'
+        };
+
+        // Global variables
+        let datosEstado = null;
+        let currentIndicators = null;
+        let currentAnalysis = null;
+
+        // Estado mapping for Ciudad de México
+        const ESTADOS_CDMX = ['Ciudad de México', 'CDMX', 'Cd México'];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarEstados();
+        });
+
+        function cargarEstados() {
+            const select = document.getElementById('estadoSelect');
+            Object.keys(estadosMapping).sort().forEach(estado => {
+                const option = document.createElement('option');
+                option.value = estado;
+                option.textContent = estado;
+                select.appendChild(option);
+            });
+        }
+
+        async function cargarDatos() {
+            const estado = document.getElementById('estadoSelect').value;
+            if (!estado) {
+                resetearFormulario();
+                return;
+            }
+
+            mostrarCargando(true);
+            mostrarStatus('Cargando datos del estado...', 'info');
+
+            try {
+                const fileName = estadosMapping[estado];
+                const url = `${baseUrl}${fileName}?${sasToken}`;
+
+                const response = await axios.get(url, { responseType: 'arraybuffer' });
+                const data = new Uint8Array(response.data);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                datosEstado = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName]);
+
+                cargarCiclos();
+                mostrarStatus(`Datos cargados exitosamente: ${datosEstado.length} registros`, 'success');
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarStatus(`Error al cargar datos: ${error.message}`, 'error');
+                resetearFormulario();
+            } finally {
+                mostrarCargando(false);
+            }
+        }
+
+        function cargarCiclos() {
+            const select = document.getElementById('cicloSelect');
+            select.disabled = false;
+            select.innerHTML = '<option value="">Seleccione ciclo...</option>';
+
+            const ciclos = [...new Set(datosEstado.map(row => row['CICLO DEL RECURSO']))].filter(Boolean).sort();
+            ciclos.forEach(ciclo => {
+                const option = document.createElement('option');
+                option.value = ciclo;
+                option.textContent = ciclo;
+                select.appendChild(option);
+            });
+        }
+
+        function actualizarFiltros() {
+            const ciclo = document.getElementById('cicloSelect').value;
+            if (!ciclo) return;
+
+            const datosFiltrados = datosEstado.filter(row => row['CICLO DEL RECURSO'] == ciclo);
+
+            const selectPrograma = document.getElementById('programaSelect');
+            selectPrograma.disabled = false;
+            selectPrograma.innerHTML = '<option value="">Seleccione programa...</option>';
+
+            const programas = [...new Set(datosFiltrados.map(row => row['PROGRAMA PRESUPUESTARIO']))].filter(Boolean).sort();
+            programas.forEach(programa => {
+                const option = document.createElement('option');
+                option.value = programa;
+                option.textContent = programa;
+                selectPrograma.appendChild(option);
+            });
+        }
+
+        function toggleMunicipioFilter() {
+            const programa = document.getElementById('programaSelect').value;
+            const estado = document.getElementById('estadoSelect').value;
+            const esCDMX = ESTADOS_CDMX.includes(estado);
+
+            if (!programa) {
+                document.getElementById('municipioContainer').style.display = 'none';
+                habilitarBotones();
+                return;
+            }
+
+            const ciclo = document.getElementById('cicloSelect').value;
+            const datosFiltrados = datosEstado.filter(row =>
+                row['CICLO DEL RECURSO'] == ciclo &&
+                row['PROGRAMA PRESUPUESTARIO'] === programa
+            );
+
+            const municipios = [...new Set(datosFiltrados.map(row => row.NOMBRE_MUNICIPIO || row['Municipio']))].filter(Boolean);
+
+            if (municipios.length > 1) {
+                const container = document.getElementById('municipioContainer');
+                const label = container.querySelector('label');
+                label.innerHTML = `<i class="fas fa-city"></i> ${esCDMX ? 'Alcaldía' : 'Municipio'}`;
+
+                const selectMunicipio = document.getElementById('municipioSelect');
+                selectMunicipio.disabled = false;
+                selectMunicipio.innerHTML = `<option value="">Seleccione ${esCDMX ? 'alcaldía' : 'municipio'}...</option>`;
+
+                municipios.sort().forEach(municipio => {
+                    const option = document.createElement('option');
+                    option.value = municipio;
+                    option.textContent = municipio;
+                    selectMunicipio.appendChild(option);
+                });
+
+                container.style.display = 'block';
+                document.getElementById('generateIndicatorsBtn').disabled = true;
+                document.getElementById('downloadExcelBtn').disabled = true;
+            } else {
+                document.getElementById('municipioContainer').style.display = 'none';
+                habilitarBotones();
+            }
+        }
+
+        function habilitarBotones() {
+            const ciclo = document.getElementById('cicloSelect').value;
+            const programa = document.getElementById('programaSelect').value;
+            const municipioContainer = document.getElementById('municipioContainer');
+            const municipio = document.getElementById('municipioSelect').value;
+
+            const debeHabilitar = ciclo && programa &&
+                (municipioContainer.style.display === 'none' || municipio);
+
+            document.getElementById('generateIndicatorsBtn').disabled = !debeHabilitar;
+            document.getElementById('downloadExcelBtn').disabled = !debeHabilitar;
+        }
+
+        function limpiarFiltros() {
+            document.getElementById('estadoSelect').value = '';
+            resetearFormulario();
+            ocultarResultados();
+            mostrarStatus('', '');
+        }
+
+        function resetearFormulario() {
+            ['cicloSelect', 'programaSelect', 'municipioSelect'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">Seleccione...</option>';
+                select.disabled = true;
+            });
+
+            document.getElementById('municipioContainer').style.display = 'none';
+            document.getElementById('generateIndicatorsBtn').disabled = true;
+            document.getElementById('downloadExcelBtn').disabled = true;
+            document.getElementById('downloadPdfBtn').disabled = true;
+
+            datosEstado = null;
+            currentIndicators = null;
+            currentAnalysis = null;
+        }
+
+        function ocultarResultados() {
+            document.getElementById('resultsSection').classList.remove('active');
+        }
+
+        function mostrarCargando(mostrar) {
+            const container = document.getElementById('loadingContainer');
+            if (mostrar) {
+                container.classList.add('active');
+            } else {
+                container.classList.remove('active');
+            }
+        }
+
+        function mostrarStatus(mensaje, tipo) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.className = 'status-message';
+            statusDiv.textContent = '';
+
+            if (mensaje) {
+                statusDiv.classList.add('active');
+                statusDiv.classList.add(`status-${tipo}`);
+                statusDiv.textContent = mensaje;
+            }
+        }
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.tab-button').classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        async function generarIndicadores() {
+            const btn = document.getElementById('generateIndicatorsBtn');
+            btn.classList.add('loading');
+            btn.querySelector('.text').textContent = 'Generando...';
+
+            mostrarStatus('Calculando indicadores...', 'info');
+
+            try {
+                const ciclo = document.getElementById('cicloSelect').value;
+                const programa = document.getElementById('programaSelect').value;
+                const municipio = document.getElementById('municipioSelect').value;
+
+                let datosFiltrados = datosEstado.filter(row =>
+                    row['CICLO DEL RECURSO'] == ciclo &&
+                    row['PROGRAMA PRESUPUESTARIO'] === programa
+                );
+
+                if (municipio) {
+                    datosFiltrados = datosFiltrados.filter(row =>
+                        row.NOMBRE_MUNICIPIO === municipio || row['Municipio'] === municipio
+                    );
+                }
+
+                const indicadores = calcularIndicadores(datosFiltrados, programa);
+                currentIndicators = indicadores;
+
+                // Display indicators
+                mostrarIndicadores(indicadores);
+
+                // Generate AI analysis
+                mostrarStatus('Generando análisis con IA...', 'info');
+                const analisis = await generarAnalisisIA(indicadores);
+                currentAnalysis = analisis;
+
+                // Display AI analysis
+                mostrarAnalisisIA(analisis);
+
+                // Show results
+                document.getElementById('resultsSection').classList.add('active');
+                document.getElementById('downloadPdfBtn').disabled = false;
+
+                mostrarStatus('Análisis completado exitosamente', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarStatus(`Error al generar análisis: ${error.message}`, 'error');
+            } finally {
+                btn.classList.remove('loading');
+                btn.querySelector('.text').textContent = 'Generar Indicadores';
+            }
+        }
+
+        function calcularIndicadores(datos, programa) {
+            // Calculate general summary
+            const totalProyectos = datos.length;
+            const totalAutorizado = sum(datos, 'MONTO TOTAL AUTORIZADO');
+            const totalEjercido = sum(datos, 'MONTO TOTAL EJERCIDO');
+            const avanceFinanciero = totalAutorizado > 0 ? (totalEjercido / totalAutorizado * 100).toFixed(2) : '0.00';
+            const eficienciaGasto = avanceFinanciero;
+
+            // Calculate meta compliance
+            const metasAlcanzadas = datos.filter(row =>
+                parseFloat(row['% CUMPLIMIENTO DE METAS']) >= 100
+            ).length;
+            const cumplimientoMetas = totalProyectos > 0 ?
+                (metasAlcanzadas / totalProyectos * 100).toFixed(2) : '0.00';
+
+            const resumenGeneral = {
+                totalProyectos,
+                totalAutorizado: formatCurrency(totalAutorizado),
+                totalEjercido: formatCurrency(totalEjercido),
+                avanceFinanciero: avanceFinanciero + '%',
+                eficienciaGasto: eficienciaGasto + '%',
+                cumplimientoMetas: cumplimientoMetas + '%',
+                beneficiariosTotales: sum(datos, 'BENEFICIARIOS TOTALES')
+            };
+
+            // Analysis by category
+            const porCategoria = groupBy(datos, 'CATEGORIA');
+            const analisisCategoria = Object.entries(porCategoria).map(([categoria, items]) => ({
+                categoria,
+                numeroProyectos: items.length,
+                montoAutorizado: formatCurrency(sum(items, 'MONTO TOTAL AUTORIZADO')),
+                montoEjercido: formatCurrency(sum(items, 'MONTO TOTAL EJERCIDO')),
+                avanceFinanciero: (sum(items, 'MONTO TOTAL EJERCIDO') / sum(items, 'MONTO TOTAL AUTORIZADO') * 100).toFixed(2) + '%'
+            }));
+
+            // Analysis by classification
+            const porClasificacion = groupBy(datos, 'CLASIFICACION');
+            const analisisClasificacion = Object.entries(porClasificacion).map(([clasificacion, items]) => ({
+                clasificacion,
+                numeroProyectos: items.length,
+                montoAutorizado: formatCurrency(sum(items, 'MONTO TOTAL AUTORIZADO')),
+                montoEjercido: formatCurrency(sum(items, 'MONTO TOTAL EJERCIDO')),
+                avanceFinanciero: (sum(items, 'MONTO TOTAL EJERCIDO') / sum(items, 'MONTO TOTAL AUTORIZADO') * 100).toFixed(2) + '%',
+                cumplimientoMetas: (items.filter(i => parseFloat(i['% CUMPLIMIENTO DE METAS']) >= 100).length / items.length * 100).toFixed(2) + '%'
+            }));
+
+            // Geographic analysis
+            const porLocalidad = groupBy(datos, 'NOMBRE_MUNICIPIO');
+            const analisisGeografico = Object.entries(porLocalidad).map(([localidad, items]) => ({
+                localidad: localidad || 'Sin especificar',
+                numeroProyectos: items.length,
+                montoAutorizado: formatCurrency(sum(items, 'MONTO TOTAL AUTORIZADO')),
+                beneficiarios: sum(items, 'BENEFICIARIOS TOTALES')
+            }));
+
+            return {
+                resumenGeneral,
+                analisisCategoria,
+                analisisClasificacion,
+                analisisGeografico,
+                datosCrudos: datos
+            };
+        }
+
+        function mostrarIndicadores(indicadores) {
+            // Show summary tab
+            const resumenTab = document.getElementById('tab-resumen');
+            let html = '<div class="ai-analysis"><h3><i class="fas fa-chart-pie"></i> Resumen Ejecutivo</h3>';
+
+            const resumen = indicadores.resumenGeneral;
+            html += '<div class="indicators-grid">';
+            html += createIndicatorCardHTML('Total de Proyectos', resumen.totalProyectos, 'Número total de proyectos analizados');
+            html += createIndicatorCardHTML('Monto Autorizado', resumen.totalAutorizado, 'Total del presupuesto autorizado');
+            html += createIndicatorCardHTML('Monto Ejercido', resumen.totalEjercido, 'Total del presupuesto ejercido');
+            html += createIndicatorCardHTML('Avance Financiero', resumen.avanceFinanciero, 'Porcentaje de ejecución presupuestal');
+            html += createIndicatorCardHTML('Cumplimiento de Metas', resumen.cumplimientoMetas, 'Porcentaje de proyectos que alcanzaron sus metas');
+            html += createIndicatorCardHTML('Beneficiarios', resumen.beneficiariosTotales.toLocaleString('es-MX'), 'Total de personas beneficiadas');
+            html += '</div></div>';
+
+            resumenTab.innerHTML = html;
+
+            // Show indicators tab
+            const indicadoresTab = document.getElementById('tab-indicadores');
+            html = '<div class="ai-analysis">';
+
+            html += '<div class="ai-section"><h4><i class="fas fa-layer-group"></i> Análisis por Categoría</h4>';
+            html += '<div class="indicators-grid">';
+            indicadores.analisisCategoria.forEach(cat => {
+                html += `<div class="indicator-card">
+                    <div class="indicator-title">${cat.categoria}</div>
+                    <div class="indicator-value">${cat.numeroProyectos}</div>
+                    <div class="indicator-description">
+                        Proyectos<br>
+                        Autorizado: ${cat.montoAutorizado}<br>
+                        Ejercido: ${cat.montoEjercido}<br>
+                        Avance: ${cat.avanceFinanciero}
+                    </div>
+                </div>`;
+            });
+            html += '</div></div>';
+
+            html += '<div class="ai-section"><h4><i class="fas fa-tags"></i> Análisis por Clasificación</h4>';
+            html += '<div class="indicators-grid">';
+            indicadores.analisisClasificacion.forEach(clas => {
+                html += `<div class="indicator-card">
+                    <div class="indicator-title">${clas.clasificacion}</div>
+                    <div class="indicator-value">${clas.numeroProyectos}</div>
+                    <div class="indicator-description">
+                        Proyectos<br>
+                        Autorizado: ${clas.montoAutorizado}<br>
+                        Avance: ${clas.avanceFinanciero}<br>
+                        Cumplimiento: ${clas.cumplimientoMetas}
+                    </div>
+                </div>`;
+            });
+            html += '</div></div>';
+
+            html += '<div class="ai-section"><h4><i class="fas fa-map-marked-alt"></i> Análisis Geográfico</h4>';
+            html += '<div class="indicators-grid">';
+            indicadores.analisisGeografico.slice(0, 12).forEach(geo => {
+                html += `<div class="indicator-card">
+                    <div class="indicator-title">${geo.localidad}</div>
+                    <div class="indicator-value">${geo.numeroProyectos}</div>
+                    <div class="indicator-description">
+                        Proyectos<br>
+                        Presupuesto: ${geo.montoAutorizado}<br>
+                        Beneficiarios: ${geo.beneficiarios.toLocaleString('es-MX')}
+                    </div>
+                </div>`;
+            });
+            html += '</div></div>';
+
+            html += '</div>';
+            indicadoresTab.innerHTML = html;
+
+            // Show charts tab
+            mostrarGraficas(indicadores);
+        }
+
+        function createIndicatorCardHTML(title, value, description) {
+            return `<div class="indicator-card">
+                <div class="indicator-title">${title}</div>
+                <div class="indicator-value">${value}</div>
+                <div class="indicator-description">${description}</div>
+            </div>`;
+        }
+
+        function mostrarGraficas(indicadores) {
+            const graficasTab = document.getElementById('tab-graficas');
+            graficasTab.innerHTML = `
+                <div class="ai-analysis">
+                    <h3><i class="fas fa-chart-line"></i> Visualizaciones</h3>
+                    <div class="chart-container">
+                        <canvas id="categoriasChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="clasificacionChart"></canvas>
+                    </div>
+                </div>
+            `;
+
+            // Chart 1: Categories
+            const ctxCat = document.getElementById('categoriasChart').getContext('2d');
+            new Chart(ctxCat, {
+                type: 'bar',
+                data: {
+                    labels: indicadores.analisisCategoria.map(c => c.categoria),
+                    datasets: [{
+                        label: 'Número de Proyectos',
+                        data: indicadores.analisisCategoria.map(c => c.numeroProyectos),
+                        backgroundColor: '#0f5e9c'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Distribución de Proyectos por Categoría',
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    }
+                }
+            });
+
+            // Chart 2: Classification
+            const ctxClas = document.getElementById('clasificacionChart').getContext('2d');
+            new Chart(ctxClas, {
+                type: 'pie',
+                data: {
+                    labels: indicadores.analisisClasificacion.map(c => c.clasificacion),
+                    datasets: [{
+                        data: indicadores.analisisClasificacion.map(c => c.numeroProyectos),
+                        backgroundColor: [
+                            '#0f5e9c', '#1e88e5', '#42a5f5', '#64b5f6',
+                            '#90caf9', '#bbdefb', '#e3f2fd'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Distribución por Clasificación',
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function generarAnalisisIA(indicadores) {
+            const estado = document.getElementById('estadoSelect').value;
+            const programa = document.getElementById('programaSelect').value;
+            const municipio = document.getElementById('municipioSelect').value;
+            const esCDMX = ESTADOS_CDMX.includes(estado);
+
+            const prompt = `Analiza los siguientes indicadores FAIS para ${estado}${municipio ? ` - ${municipio}` : ''}, programa: ${programa}
+
+RESUMEN GENERAL:
+- Total de Proyectos: ${indicadores.resumenGeneral.totalProyectos}
+- Monto Autorizado: ${indicadores.resumenGeneral.totalAutorizado}
+- Monto Ejercido: ${indicadores.resumenGeneral.totalEjercido}
+- Avance Financiero: ${indicadores.resumenGeneral.avanceFinanciero}
+- Cumplimiento de Metas: ${indicadores.resumenGeneral.cumplimientoMetas}
+- Beneficiarios Totales: ${indicadores.resumenGeneral.beneficiariosTotales.toLocaleString('es-MX')}
+
+ANÁLISIS POR CATEGORÍA:
+${indicadores.analisisCategoria.map(c => `- ${c.categoria}: ${c.numeroProyectos} proyectos, Avance: ${c.avanceFinanciero}`).join('\n')}
+
+ANÁLISIS POR CLASIFICACIÓN:
+${indicadores.analisisClasificacion.map(c => `- ${c.clasificacion}: ${c.numeroProyectos} proyectos, Avance: ${c.avanceFinanciero}, Cumplimiento: ${c.cumplimientoMetas}`).join('\n')}
+
+Genera un análisis profesional estructurado con las siguientes secciones (IMPORTANTE: cada sección debe tener al menos 3-4 párrafos de análisis detallado):
+
+RESUMEN EJECUTIVO
+[Análisis general del estado de los indicadores y hallazgos principales. Mínimo 3 párrafos.]
+
+EFICIENCIA EN LA EJECUCIÓN DEL PRESUPUESTO
+[Análisis detallado del avance financiero, eficiencia del gasto y patrones de ejecución. Mínimo 3 párrafos.]
+
+IMPACTO Y ALCANCE DE LOS PROYECTOS
+[Evaluación del cumplimiento de metas, beneficiarios y cobertura de los proyectos. Mínimo 3 párrafos.]
+
+EQUIDAD Y DISTRIBUCIÓN
+[Análisis de la distribución geográfica y por categoría de los recursos. Mínimo 3 párrafos.]
+
+ÁREAS DE OPORTUNIDAD Y RECOMENDACIONES
+[Identificación de áreas de mejora y recomendaciones específicas. Mínimo 3 párrafos.]
+
+IMPORTANTE:
+- Usa el término "${esCDMX ? 'alcaldía' : 'municipio'}" y "${esCDMX ? 'alcaldías' : 'municipios'}" según corresponda
+- Cada sección debe ser detallada y proporcionar insights valiosos
+- Incluye datos numéricos específicos del análisis
+- Sé específico y profesional`;
+
+            try {
+                const response = await fetch(`${CONFIG.AZURE_OPENAI_ENDPOINT}/openai/deployments/${CONFIG.AZURE_OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=${CONFIG.AZURE_OPENAI_API_VERSION}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'api-key': CONFIG.AZURE_OPENAI_API_KEY
+                    },
+                    body: JSON.stringify({
+                        messages: [
+                            {
+                                role: "system",
+                                content: "Eres un analista experto en programas sociales y presupuesto público en México, especializado en el análisis del Fondo de Aportaciones para la Infraestructura Social (FAIS). Genera análisis detallados, profesionales y basados en datos."
+                            },
+                            {
+                                role: "user",
+                                content: prompt
+                            }
+                        ],
+                        max_tokens: 4000,
+                        temperature: 0.7
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de Azure OpenAI');
+                }
+
+                const data = await response.json();
+                return data.choices[0].message.content;
+            } catch (error) {
+                console.error('Error generating AI analysis:', error);
+                throw error;
+            }
+        }
+
+        function mostrarAnalisisIA(analisisTexto) {
+            const container = document.getElementById('tab-analisis-ia');
+            const estado = document.getElementById('estadoSelect').value;
+            const esCDMX = ESTADOS_CDMX.includes(estado);
+
+            const contenidoLimpio = analisisTexto
+                .replace(/municipio/gi, esCDMX ? 'alcaldía' : 'municipio')
+                .replace(/municipios/gi, esCDMX ? 'alcaldías' : 'municipios');
+
+            const secciones = contenidoLimpio.split(/(?=RESUMEN EJECUTIVO|EFICIENCIA EN LA EJECUCIÓN|IMPACTO Y ALCANCE|EQUIDAD Y DISTRIBUCIÓN|ÁREAS DE OPORTUNIDAD)/);
+
+            const titulos = [
+                'RESUMEN EJECUTIVO',
+                'EFICIENCIA EN LA EJECUCIÓN DEL PRESUPUESTO',
+                'IMPACTO Y ALCANCE DE LOS PROYECTOS',
+                'EQUIDAD Y DISTRIBUCIÓN',
+                'ÁREAS DE OPORTUNIDAD Y RECOMENDACIONES'
+            ];
+
+            let html = '<div class="ai-analysis">';
+            html += '<h3><i class="fas fa-robot"></i> Análisis Generado con Inteligencia Artificial</h3>';
+
+            secciones.forEach((seccion, index) => {
+                if (!seccion.trim()) return;
+
+                // Remove section title from content
+                let contenido = seccion
+                    .replace(/^RESUMEN EJECUTIVO\s*/i, '')
+                    .replace(/^EFICIENCIA EN LA EJECUCIÓN[^\n]*\n?/i, '')
+                    .replace(/^IMPACTO Y ALCANCE[^\n]*\n?/i, '')
+                    .replace(/^EQUIDAD Y DISTRIBUCIÓN\s*/i, '')
+                    .replace(/^ÁREAS DE OPORTUNIDAD[^\n]*/i, '')
+                    .trim();
+
+                // Split into sentences and create paragraphs
+                const oraciones = contenido.match(/[^.!?]+[.!?]+/g) || [contenido];
+                let parrafos = [];
+                let parrafoActual = '';
+
+                // Group 2 sentences per paragraph
+                oraciones.forEach((oracion, i) => {
+                    parrafoActual += oracion.trim() + ' ';
+                    if ((i + 1) % 2 === 0 || i === oraciones.length - 1) {
+                        parrafos.push(parrafoActual.trim());
+                        parrafoActual = '';
+                    }
+                });
+
+                html += `
+                    <div class="ai-section">
+                        <h4><i class="fas fa-chevron-right"></i> ${titulos[index] || 'Sección'}</h4>
+                        ${parrafos.map(p => `<p style="margin-bottom: 1rem; line-height: 1.8; text-align: justify;">${p}</p>`).join('')}
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        async function descargarExcel() {
+            const btn = document.getElementById('downloadExcelBtn');
+            btn.classList.add('loading');
+            btn.querySelector('.text').textContent = 'Exportando...';
+
+            try {
+                const estado = document.getElementById('estadoSelect').value;
+                const ciclo = document.getElementById('cicloSelect').value;
+                const programa = document.getElementById('programaSelect').value;
+                const municipio = document.getElementById('municipioSelect').value;
+
+                let datosFiltrados = datosEstado.filter(row =>
+                    row['CICLO DEL RECURSO'] == ciclo &&
+                    row['PROGRAMA PRESUPUESTARIO'] === programa
+                );
+
+                if (municipio) {
+                    datosFiltrados = datosFiltrados.filter(row =>
+                        row.NOMBRE_MUNICIPIO === municipio || row['Municipio'] === municipio
+                    );
+                }
+
+                const ws = XLSX.utils.json_to_sheet(datosFiltrados);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Datos FAIS');
+
+                const fecha = new Date().toISOString().split('T')[0];
+                const nombreArchivo = `Indicadores_FAIS_${estado.replace(/ /g, '_')}_${fecha}.xlsx`;
+
+                XLSX.writeFile(wb, nombreArchivo);
+                mostrarStatus('Archivo Excel descargado exitosamente', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarStatus(`Error al exportar Excel: ${error.message}`, 'error');
+            } finally {
+                btn.classList.remove('loading');
+                btn.querySelector('.text').textContent = 'Exportar Excel';
+            }
+        }
+
+        async function descargarPDF() {
+            const btn = document.getElementById('downloadPdfBtn');
+            btn.classList.add('loading');
+            btn.querySelector('.text').textContent = 'Generando PDF...';
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                const estado = document.getElementById('estadoSelect').value;
+                const programa = document.getElementById('programaSelect').value;
+                const municipio = document.getElementById('municipioSelect').value;
+                const esCDMX = ESTADOS_CDMX.includes(estado);
+                const fecha = new Date().toLocaleDateString('es-MX');
+
+                let yPos = 20;
+
+                // Header
+                doc.setFillColor(15, 94, 156);
+                doc.rect(0, 0, 210, 40, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(18);
+                doc.text('ANÁLISIS DE INDICADORES FAIS', 105, 15, { align: 'center' });
+                doc.setFontSize(12);
+                doc.text(estado, 105, 25, { align: 'center' });
+                doc.setFontSize(10);
+                doc.text(`Programa: ${programa}`, 105, 32, { align: 'center' });
+
+                yPos = 50;
+
+                // Summary section
+                doc.setTextColor(0, 0, 0);
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(14);
+                doc.text('RESUMEN DE INDICADORES', 15, yPos);
+                yPos += 10;
+
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(10);
+
+                const resumen = currentIndicators.resumenGeneral;
+                const indicadoresResumen = [
+                    `Total de Proyectos: ${resumen.totalProyectos}`,
+                    `Monto Autorizado: ${resumen.totalAutorizado}`,
+                    `Monto Ejercido: ${resumen.totalEjercido}`,
+                    `Avance Financiero: ${resumen.avanceFinanciero}`,
+                    `Cumplimiento de Metas: ${resumen.cumplimientoMetas}`,
+                    `Beneficiarios Totales: ${resumen.beneficiariosTotales.toLocaleString('es-MX')}`
+                ];
+
+                indicadoresResumen.forEach(ind => {
+                    if (yPos > 270) {
+                        doc.addPage();
+                        yPos = 20;
+                    }
+                    doc.text(ind, 15, yPos);
+                    yPos += 6;
+                });
+
+                yPos += 5;
+
+                // AI Analysis
+                if (currentAnalysis) {
+                    const contenidoLimpio = currentAnalysis
+                        .replace(/municipio/gi, esCDMX ? 'alcaldía' : 'municipio')
+                        .replace(/municipios/gi, esCDMX ? 'alcaldías' : 'municipios');
+
+                    const secciones = contenidoLimpio.split(/(?=RESUMEN EJECUTIVO|EFICIENCIA EN LA EJECUCIÓN|IMPACTO Y ALCANCE|EQUIDAD Y DISTRIBUCIÓN|ÁREAS DE OPORTUNIDAD)/);
+
+                    const titulos = [
+                        'I. RESUMEN EJECUTIVO',
+                        'II. EFICIENCIA EN LA EJECUCIÓN DEL PRESUPUESTO',
+                        'III. IMPACTO Y ALCANCE DE LOS PROYECTOS',
+                        'IV. EQUIDAD Y DISTRIBUCIÓN',
+                        'V. ÁREAS DE OPORTUNIDAD Y RECOMENDACIONES'
+                    ];
+
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    doc.setTextColor(0, 0, 0);
+
+                    secciones.forEach((seccion, index) => {
+                        if (!seccion.trim()) return;
+
+                        // Check space for new section
+                        if (yPos > 240) {
+                            doc.addPage();
+                            yPos = 20;
+                        }
+
+                        // Remove section title from content
+                        let contenido = seccion
+                            .replace(/^RESUMEN EJECUTIVO\s*/i, '')
+                            .replace(/^EFICIENCIA EN LA EJECUCIÓN[^\n]*\n?/i, '')
+                            .replace(/^IMPACTO Y ALCANCE[^\n]*\n?/i, '')
+                            .replace(/^EQUIDAD Y DISTRIBUCIÓN\s*/i, '')
+                            .replace(/^ÁREAS DE OPORTUNIDAD[^\n]*/i, '')
+                            .trim();
+
+                        // Section title
+                        doc.setFont(undefined, 'bold');
+                        doc.setFontSize(12);
+                        doc.setTextColor(15, 94, 156);
+                        doc.text(titulos[index] || 'Sección', 15, yPos);
+                        yPos += 8;
+
+                        // Content - split into paragraphs by sentences
+                        doc.setFont(undefined, 'normal');
+                        doc.setFontSize(10);
+                        doc.setTextColor(0, 0, 0);
+
+                        const oraciones = contenido.match(/[^.!?]+[.!?]+/g) || [contenido];
+                        let parrafoActual = '';
+
+                        oraciones.forEach((oracion, i) => {
+                            parrafoActual += oracion.trim() + ' ';
+
+                            // Create paragraph every 3 sentences
+                            if ((i + 1) % 3 === 0 || i === oraciones.length - 1) {
+                                // Use splitTextToSize for proper text wrapping
+                                const lineas = doc.splitTextToSize(parrafoActual.trim(), 180);
+
+                                lineas.forEach(linea => {
+                                    if (yPos > 270) {
+                                        doc.addPage();
+                                        yPos = 20;
+                                    }
+                                    doc.text(linea, 15, yPos);
+                                    yPos += 5;
+                                });
+
+                                // Space between paragraphs
+                                yPos += 4;
+                                parrafoActual = '';
+                            }
+                        });
+
+                        // Space between sections
+                        yPos += 4;
+                    });
+                }
+
+                // Footer
+                const totalPages = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= totalPages; i++) {
+                    doc.setPage(i);
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text(`Generado el ${fecha} | Portal Inteligente FAIS`, 105, 290, { align: 'center' });
+                    doc.text(`Página ${i} de ${totalPages}`, 195, 290, { align: 'right' });
+                }
+
+                const nombreArchivo = `Analisis_Indicadores_FAIS_${estado.replace(/ /g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+                doc.save(nombreArchivo);
+
+                mostrarStatus('PDF generado exitosamente', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarStatus(`Error al generar PDF: ${error.message}`, 'error');
+            } finally {
+                btn.classList.remove('loading');
+                btn.querySelector('.text').textContent = 'Descargar PDF';
+            }
+        }
+
+        // Helper functions
+        function sum(array, key) {
+            return array.reduce((a, b) => {
+                const value = Number(b[key]);
+                return a + (isNaN(value) ? 0 : value);
+            }, 0);
+        }
+
+        function groupBy(array, key) {
+            return array.reduce((result, obj) => {
+                const groupKey = obj[key] || 'Sin Especificar';
+                (result[groupKey] = result[groupKey] || []).push(obj);
+                return result;
+            }, {});
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('es-MX', {
+                style: 'currency',
+                currency: 'MXN',
+                minimumFractionDigits: 2
+            }).format(amount);
+        }
+    </script>
+</body>
+</html>

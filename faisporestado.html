@@ -392,38 +392,66 @@
 
         /* AI Analysis Section */
         .ai-analysis {
-            background: #f8f9fa;
-            padding: 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2.5rem;
             border-radius: 12px;
-            border-left: 4px solid var(--accent-color);
+            border-left: 5px solid var(--accent-color);
         }
 
         .ai-analysis h3 {
             color: var(--text-dark);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            font-size: 1.4rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-300);
         }
 
         .ai-section {
             background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow-sm);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+
+        .ai-section:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
         .ai-section h4 {
             color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
+            margin-bottom: 1.25rem;
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .ai-section h4 i {
+            font-size: 0.9rem;
+            color: var(--accent-color);
         }
 
         .ai-section p {
-            line-height: 1.8;
+            line-height: 1.9;
             color: #495057;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
+            text-align: justify;
+            font-size: 0.95rem;
+            hyphens: auto;
+        }
+
+        .ai-section p:last-child {
+            margin-bottom: 0;
         }
 
         /* Action Buttons in Results */
@@ -1018,40 +1046,45 @@
                 const esCDMX = estado === 'Ciudad de México';
                 const terminoGeografico = esCDMX ? 'alcaldías' : 'municipios';
 
-                const prompt = `Analiza los siguientes datos del FAIS y proporciona un análisis detallado estructurado en secciones claras:
+                const prompt = `Analiza los siguientes datos del FAIS y proporciona un análisis detallado profesional.
 
-INDICADORES FINANCIEROS
-- Total Aprobado: $${formatNumber(analisis.financiero.totalAprobado)}
-- Total Ejercido: $${formatNumber(analisis.financiero.totalEjercido)}
-- Total Pagado: $${formatNumber(analisis.financiero.totalPagado)}
-- % Ejercido: ${analisis.financiero.porcentajeEjercido}%
-- % Pagado: ${analisis.financiero.porcentajePagado}%
+INDICADORES FINANCIEROS:
+Total Aprobado: $${formatNumber(analisis.financiero.totalAprobado)}
+Total Ejercido: $${formatNumber(analisis.financiero.totalEjercido)} (${analisis.financiero.porcentajeEjercido}%)
+Total Pagado: $${formatNumber(analisis.financiero.totalPagado)} (${analisis.financiero.porcentajePagado}%)
 
-INDICADORES FÍSICOS
-- Total Proyectos: ${analisis.fisico.totalProyectos}
-- Promedio Avance: ${analisis.fisico.promedioAvance}%
-- Proyectos Terminados: ${analisis.fisico.proyectosTerminados} (${analisis.fisico.porcentajeTerminados}%)
+INDICADORES FÍSICOS:
+Total Proyectos: ${analisis.fisico.totalProyectos}
+Promedio Avance: ${analisis.fisico.promedioAvance}%
+Proyectos Terminados: ${analisis.fisico.proyectosTerminados} (${analisis.fisico.porcentajeTerminados}%)
 
-COBERTURA
-- Total Localidades: ${analisis.cobertura.totalLocalidades}
-- Distribución: ${analisis.cobertura.distribucionGeografica}
+COBERTURA:
+Localidades: ${analisis.cobertura.totalLocalidades}
+Distribución: ${analisis.cobertura.distribucionGeografica}
 
-BENEFICIARIOS
-- Total: ${formatNumber(analisis.beneficiarios.total)}
-- Mujeres: ${formatNumber(analisis.beneficiarios.totalMujeres)} (${analisis.beneficiarios.ratioMujeres}%)
-- Hombres: ${formatNumber(analisis.beneficiarios.totalHombres)} (${analisis.beneficiarios.ratioHombres}%)
+BENEFICIARIOS:
+Total: ${formatNumber(analisis.beneficiarios.total)}
+Mujeres: ${formatNumber(analisis.beneficiarios.totalMujeres)} (${analisis.beneficiarios.ratioMujeres}%)
+Hombres: ${formatNumber(analisis.beneficiarios.totalHombres)} (${analisis.beneficiarios.ratioHombres}%)
 
-Nota: Usa el término "${terminoGeografico}" para ${estado}.
+Instrucciones importantes:
+- Usa "${terminoGeografico}" para ${estado}
+- Escribe párrafos completos y fluidos
+- Cada sección debe tener 2-3 párrafos
+- NO escribas números con espacios antes de los decimales
+- Escribe en formato profesional de informe ejecutivo
 
-Proporciona análisis con estas secciones:
+Estructura tu análisis en 5 secciones numeradas con romanos:
 
-1. RESUMEN EJECUTIVO
-2. EFICIENCIA EN LA EJECUCIÓN DEL PRESUPUESTO
-3. IMPACTO Y ALCANCE DE LOS PROYECTOS
-4. EQUIDAD Y DISTRIBUCIÓN
-5. ÁREAS DE OPORTUNIDAD Y RECOMENDACIONES
+I. RESUMEN EJECUTIVO
 
-No uses símbolos especiales ni repitas títulos. Escribe párrafos concisos y estructurados.`;
+II. EFICIENCIA EN LA EJECUCIÓN DEL PRESUPUESTO
+
+III. IMPACTO Y ALCANCE DE LOS PROYECTOS
+
+IV. EQUIDAD Y DISTRIBUCIÓN
+
+V. ÁREAS DE OPORTUNIDAD Y RECOMENDACIONES`;
 
                 const response = await fetch(
                     `${CONFIG.AZURE_OPENAI_ENDPOINT}/openai/deployments/${CONFIG.AZURE_OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=${CONFIG.AZURE_OPENAI_API_VERSION}`,
@@ -1065,12 +1098,12 @@ No uses símbolos especiales ni repitas títulos. Escribe párrafos concisos y e
                             messages: [
                                 {
                                     role: "system",
-                                    content: "Eres un analista experto en fondos públicos FAIS. Proporciona análisis detallados y estructurados."
+                                    content: "Eres un analista experto en fondos públicos FAIS. Genera análisis profesionales en formato de informe ejecutivo. Escribe números sin espacios innecesarios. Usa párrafos bien estructurados separados por líneas en blanco."
                                 },
                                 { role: "user", content: prompt }
                             ],
                             temperature: 0.7,
-                            max_tokens: 2000
+                            max_tokens: 2500
                         })
                     }
                 );
@@ -1264,34 +1297,89 @@ No uses símbolos especiales ni repitas títulos. Escribe párrafos concisos y e
             const estado = document.getElementById('estado').value;
             const esCDMX = estado === 'Ciudad de México';
 
-            const contenidoLimpio = analisisTexto
+            // Limpiar el contenido
+            let contenidoLimpio = analisisTexto
                 .replace(/municipio/gi, esCDMX ? 'alcaldía' : 'municipio')
-                .replace(/municipios/gi, esCDMX ? 'alcaldías' : 'municipios');
+                .replace(/municipios/gi, esCDMX ? 'alcaldías' : 'municipios')
+                .trim();
 
-            const secciones = contenidoLimpio.split(/(?=RESUMEN EJECUTIVO|EFICIENCIA EN LA EJECUCIÓN|IMPACTO Y ALCANCE|EQUIDAD Y DISTRIBUCIÓN|ÁREAS DE OPORTUNIDAD)/);
+            // Dividir por secciones usando encabezados numerados
+            const seccionesRegex = /(?:^|\n)(?:I{1,5}\.)\s*([A-ZÁÉÍÓÚÑ\s]+?)(?=\n)/g;
+            const secciones = [];
+            let lastIndex = 0;
+            let match;
 
-            const titulos = [
-                'RESUMEN EJECUTIVO',
-                'EFICIENCIA EN LA EJECUCIÓN DEL PRESUPUESTO',
-                'IMPACTO Y ALCANCE DE LOS PROYECTOS',
-                'EQUIDAD Y DISTRIBUCIÓN',
-                'ÁREAS DE OPORTUNIDAD Y RECOMENDACIONES'
-            ];
+            while ((match = seccionesRegex.exec(contenidoLimpio)) !== null) {
+                if (lastIndex > 0) {
+                    secciones.push({
+                        titulo: prevTitulo,
+                        contenido: contenidoLimpio.substring(lastIndex, match.index).trim()
+                    });
+                }
+                var prevTitulo = match[1].trim();
+                lastIndex = match.index + match[0].length;
+            }
+
+            // Agregar última sección
+            if (lastIndex > 0) {
+                secciones.push({
+                    titulo: prevTitulo,
+                    contenido: contenidoLimpio.substring(lastIndex).trim()
+                });
+            }
+
+            // Si no se encontraron secciones, usar método alternativo
+            if (secciones.length === 0) {
+                const partes = contenidoLimpio.split(/(?=RESUMEN EJECUTIVO|EFICIENCIA EN LA EJECUCIÓN|IMPACTO Y ALCANCE|EQUIDAD Y DISTRIBUCIÓN|ÁREAS DE OPORTUNIDAD)/);
+
+                const titulos = [
+                    'RESUMEN EJECUTIVO',
+                    'EFICIENCIA EN LA EJECUCIÓN DEL PRESUPUESTO',
+                    'IMPACTO Y ALCANCE DE LOS PROYECTOS',
+                    'EQUIDAD Y DISTRIBUCIÓN',
+                    'ÁREAS DE OPORTUNIDAD Y RECOMENDACIONES'
+                ];
+
+                partes.forEach((parte, index) => {
+                    if (!parte.trim()) return;
+
+                    let contenido = parte
+                        .replace(/^RESUMEN EJECUTIVO\s*/i, '')
+                        .replace(/^EFICIENCIA EN LA EJECUCIÓN[^\n]*\n?/i, '')
+                        .replace(/^IMPACTO Y ALCANCE[^\n]*\n?/i, '')
+                        .replace(/^EQUIDAD Y DISTRIBUCIÓN\s*/i, '')
+                        .replace(/^ÁREAS DE OPORTUNIDAD[^\n]*/i, '')
+                        .trim();
+
+                    secciones.push({
+                        titulo: titulos[index] || 'Sección',
+                        contenido: contenido
+                    });
+                });
+            }
 
             let html = '<div class="ai-analysis">';
             html += '<h3><i class="fas fa-robot"></i> Análisis Generado con Inteligencia Artificial</h3>';
 
             secciones.forEach((seccion, index) => {
-                if (!seccion.trim()) return;
+                if (!seccion.contenido) return;
 
-                const contenido = seccion.replace(/^[A-Z\s]+/, '').trim();
+                // Dividir en párrafos por saltos de línea dobles o puntos seguidos
+                const parrafos = seccion.contenido
+                    .split(/\n\n+/)
+                    .map(p => p.trim())
+                    .filter(p => p.length > 0);
 
                 html += `
                     <div class="ai-section">
-                        <h4><i class="fas fa-chevron-right"></i> ${titulos[index] || 'Sección'}</h4>
-                        <p>${contenido}</p>
-                    </div>
+                        <h4><i class="fas fa-chevron-right"></i> ${seccion.titulo}</h4>
                 `;
+
+                parrafos.forEach(parrafo => {
+                    html += `<p style="margin-bottom: 1rem; line-height: 1.8; text-align: justify;">${parrafo}</p>`;
+                });
+
+                html += `</div>`;
             });
 
             html += '</div>';
@@ -1313,6 +1401,11 @@ No uses símbolos especiales ni repitas títulos. Escribe párrafos concisos y e
                 const esCDMX = estado === 'Ciudad de México';
                 const terminoGeografico = esCDMX ? 'Alcaldía' : 'Municipio';
 
+                // Márgenes y constantes
+                const margenIzq = 15;
+                const margenDer = 195;
+                const anchoTexto = margenDer - margenIzq;
+
                 // Header moderno con fondo
                 doc.setFillColor(15, 94, 156);
                 doc.rect(0, 0, 210, 40, 'F');
@@ -1325,73 +1418,78 @@ No uses símbolos especiales ni repitas títulos. Escribe párrafos concisos y e
                 doc.setFontSize(12);
                 doc.setFont(undefined, 'normal');
                 doc.text(`${estado} - Ciclo ${ciclo}`, 105, 25, { align: 'center' });
-                doc.text(`${programa}`, 105, 32, { align: 'center' });
 
-                let yPos = 50;
+                // Dividir el programa si es muy largo
+                const programaLineas = doc.splitTextToSize(programa, 180);
+                let yPrograma = 32;
+                programaLineas.forEach(linea => {
+                    doc.text(linea, 105, yPrograma, { align: 'center' });
+                    yPrograma += 5;
+                });
+
+                let yPos = Math.max(50, yPrograma + 10);
                 doc.setTextColor(0, 0, 0);
+
+                // Función auxiliar para agregar sección
+                function agregarSeccion(titulo, contenido, yActual) {
+                    // Verificar si necesitamos nueva página
+                    if (yActual + 30 > 270) {
+                        doc.addPage();
+                        yActual = 20;
+                    }
+
+                    // Título de la sección
+                    doc.setFillColor(248, 249, 250);
+                    doc.rect(10, yActual, 190, 8, 'F');
+                    doc.setFontSize(14);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(15, 94, 156);
+                    doc.text(titulo, margenIzq, yActual + 6);
+                    yActual += 12;
+
+                    // Contenido
+                    doc.setFontSize(10);
+                    doc.setFont(undefined, 'normal');
+                    doc.setTextColor(0, 0, 0);
+
+                    contenido.forEach(item => {
+                        if (yActual > 270) {
+                            doc.addPage();
+                            yActual = 20;
+                        }
+                        doc.text(item, margenIzq, yActual);
+                        yActual += 6;
+                    });
+
+                    return yActual + 4;
+                }
 
                 // Indicadores Financieros
-                doc.setFillColor(248, 249, 250);
-                doc.rect(10, yPos, 190, 8, 'F');
-                doc.setFontSize(14);
-                doc.setFont(undefined, 'bold');
-                doc.setTextColor(15, 94, 156);
-                doc.text('INDICADORES FINANCIEROS', 15, yPos + 6);
-                yPos += 12;
-
-                doc.setFontSize(10);
-                doc.setFont(undefined, 'normal');
-                doc.setTextColor(0, 0, 0);
-                doc.text(`Total Aprobado: ${formatCurrency(currentAnalysis.financiero.totalAprobado)}`, 15, yPos); yPos += 6;
-                doc.text(`Total Ejercido: ${formatCurrency(currentAnalysis.financiero.totalEjercido)} (${currentAnalysis.financiero.porcentajeEjercido}%)`, 15, yPos); yPos += 6;
-                doc.text(`Total Pagado: ${formatCurrency(currentAnalysis.financiero.totalPagado)} (${currentAnalysis.financiero.porcentajePagado}%)`, 15, yPos); yPos += 10;
+                yPos = agregarSeccion('INDICADORES FINANCIEROS', [
+                    `Total Aprobado: ${formatCurrency(currentAnalysis.financiero.totalAprobado)}`,
+                    `Total Ejercido: ${formatCurrency(currentAnalysis.financiero.totalEjercido)} (${currentAnalysis.financiero.porcentajeEjercido}%)`,
+                    `Total Pagado: ${formatCurrency(currentAnalysis.financiero.totalPagado)} (${currentAnalysis.financiero.porcentajePagado}%)`
+                ], yPos);
 
                 // Indicadores Físicos
-                doc.setFillColor(248, 249, 250);
-                doc.rect(10, yPos, 190, 8, 'F');
-                doc.setFontSize(14);
-                doc.setFont(undefined, 'bold');
-                doc.setTextColor(15, 94, 156);
-                doc.text('INDICADORES FÍSICOS', 15, yPos + 6);
-                yPos += 12;
-
-                doc.setFontSize(10);
-                doc.setFont(undefined, 'normal');
-                doc.setTextColor(0, 0, 0);
-                doc.text(`Total Proyectos: ${currentAnalysis.fisico.totalProyectos}`, 15, yPos); yPos += 6;
-                doc.text(`Promedio Avance: ${currentAnalysis.fisico.promedioAvance}%`, 15, yPos); yPos += 6;
-                doc.text(`Proyectos Terminados: ${currentAnalysis.fisico.proyectosTerminados} (${currentAnalysis.fisico.porcentajeTerminados}%)`, 15, yPos); yPos += 10;
+                yPos = agregarSeccion('INDICADORES FÍSICOS', [
+                    `Total Proyectos: ${currentAnalysis.fisico.totalProyectos}`,
+                    `Promedio Avance: ${currentAnalysis.fisico.promedioAvance}%`,
+                    `Proyectos Terminados: ${currentAnalysis.fisico.proyectosTerminados} (${currentAnalysis.fisico.porcentajeTerminados}%)`
+                ], yPos);
 
                 // Cobertura
-                doc.setFillColor(248, 249, 250);
-                doc.rect(10, yPos, 190, 8, 'F');
-                doc.setFontSize(14);
-                doc.setFont(undefined, 'bold');
-                doc.setTextColor(15, 94, 156);
-                doc.text('COBERTURA', 15, yPos + 6);
-                yPos += 12;
-
-                doc.setFontSize(10);
-                doc.setFont(undefined, 'normal');
-                doc.setTextColor(0, 0, 0);
-                doc.text(`Localidades: ${currentAnalysis.cobertura.totalLocalidades}`, 15, yPos); yPos += 6;
-                doc.text(`Distribución: ${currentAnalysis.cobertura.distribucionGeografica}`, 15, yPos); yPos += 10;
+                yPos = agregarSeccion('COBERTURA', [
+                    `Localidades: ${currentAnalysis.cobertura.totalLocalidades}`,
+                    `Distribución: ${currentAnalysis.cobertura.distribucionGeografica}`
+                ], yPos);
 
                 // Beneficiarios
-                doc.setFillColor(248, 249, 250);
-                doc.rect(10, yPos, 190, 8, 'F');
-                doc.setFontSize(14);
-                doc.setFont(undefined, 'bold');
-                doc.setTextColor(15, 94, 156);
-                doc.text('BENEFICIARIOS', 15, yPos + 6);
-                yPos += 12;
-
-                doc.setFontSize(10);
-                doc.setFont(undefined, 'normal');
-                doc.setTextColor(0, 0, 0);
-                doc.text(`Total: ${formatNumber(currentAnalysis.beneficiarios.total)}`, 15, yPos); yPos += 6;
-                doc.text(`Mujeres: ${formatNumber(currentAnalysis.beneficiarios.totalMujeres)} (${currentAnalysis.beneficiarios.ratioMujeres}%)`, 15, yPos); yPos += 6;
-                doc.text(`Hombres: ${formatNumber(currentAnalysis.beneficiarios.totalHombres)} (${currentAnalysis.beneficiarios.ratioHombres}%)`, 15, yPos); yPos += 10;
+                yPos = agregarSeccion('BENEFICIARIOS', [
+                    `Total: ${formatNumber(currentAnalysis.beneficiarios.total)}`,
+                    `Mujeres: ${formatNumber(currentAnalysis.beneficiarios.totalMujeres)} (${currentAnalysis.beneficiarios.ratioMujeres}%)`,
+                    `Hombres: ${formatNumber(currentAnalysis.beneficiarios.totalHombres)} (${currentAnalysis.beneficiarios.ratioHombres}%)`
+                ], yPos);
 
                 // Nueva página para análisis IA
                 doc.addPage();
@@ -1403,73 +1501,134 @@ No uses símbolos especiales ni repitas títulos. Escribe párrafos concisos y e
                 doc.setFont(undefined, 'bold');
                 doc.setTextColor(15, 94, 156);
                 doc.text('ANÁLISIS CON INTELIGENCIA ARTIFICIAL', 105, yPos + 7, { align: 'center' });
-                yPos += 15;
+                yPos += 18;
 
                 // Procesar análisis IA
                 if (currentAnalysis.analisisIA) {
                     const contenidoLimpio = currentAnalysis.analisisIA
                         .replace(/municipio/gi, esCDMX ? 'alcaldía' : 'municipio')
-                        .replace(/municipios/gi, esCDMX ? 'alcaldías' : 'municipios');
+                        .replace(/municipios/gi, esCDMX ? 'alcaldías' : 'municipios')
+                        .trim();
 
-                    const secciones = contenidoLimpio.split(/(?=RESUMEN EJECUTIVO|EFICIENCIA EN LA EJECUCIÓN|IMPACTO Y ALCANCE|EQUIDAD Y DISTRIBUCIÓN|ÁREAS DE OPORTUNIDAD)/);
+                    // Dividir por secciones usando regex para encontrar títulos numerados
+                    const seccionesRegex = /(?:^|\n)(I{1,5}\.\s*[A-ZÁÉÍÓÚÑ\s]+)/g;
+                    const matches = [];
+                    let match;
 
-                    const titulos = [
-                        'I. RESUMEN EJECUTIVO',
-                        'II. EFICIENCIA EN LA EJECUCIÓN',
-                        'III. IMPACTO Y ALCANCE',
-                        'IV. EQUIDAD Y DISTRIBUCIÓN',
-                        'V. ÁREAS DE OPORTUNIDAD'
-                    ];
+                    while ((match = seccionesRegex.exec(contenidoLimpio)) !== null) {
+                        matches.push({
+                            titulo: match[1].trim(),
+                            index: match.index + (match[0].startsWith('\n') ? 1 : 0)
+                        });
+                    }
 
-                    doc.setFontSize(10);
+                    // Extraer secciones con su contenido
+                    const secciones = [];
+                    for (let i = 0; i < matches.length; i++) {
+                        const inicio = matches[i].index + matches[i].titulo.length;
+                        const fin = i < matches.length - 1 ? matches[i + 1].index : contenidoLimpio.length;
+                        const contenido = contenidoLimpio.substring(inicio, fin).trim();
+
+                        secciones.push({
+                            titulo: matches[i].titulo,
+                            contenido: contenido
+                        });
+                    }
+
+                    // Si no se encontraron secciones, usar método alternativo
+                    if (secciones.length === 0) {
+                        const partes = contenidoLimpio.split(/(?=RESUMEN EJECUTIVO|EFICIENCIA EN LA EJECUCIÓN|IMPACTO Y ALCANCE|EQUIDAD Y DISTRIBUCIÓN|ÁREAS DE OPORTUNIDAD)/);
+
+                        const titulos = [
+                            'I. RESUMEN EJECUTIVO',
+                            'II. EFICIENCIA EN LA EJECUCIÓN DEL PRESUPUESTO',
+                            'III. IMPACTO Y ALCANCE DE LOS PROYECTOS',
+                            'IV. EQUIDAD Y DISTRIBUCIÓN',
+                            'V. ÁREAS DE OPORTUNIDAD Y RECOMENDACIONES'
+                        ];
+
+                        partes.forEach((parte, index) => {
+                            if (!parte.trim()) return;
+
+                            let contenido = parte
+                                .replace(/^RESUMEN EJECUTIVO\s*/i, '')
+                                .replace(/^EFICIENCIA EN LA EJECUCIÓN[^\n]*\n?/i, '')
+                                .replace(/^IMPACTO Y ALCANCE[^\n]*\n?/i, '')
+                                .replace(/^EQUIDAD Y DISTRIBUCIÓN\s*/i, '')
+                                .replace(/^ÁREAS DE OPORTUNIDAD[^\n]*/i, '')
+                                .trim();
+
+                            secciones.push({
+                                titulo: titulos[index] || 'Sección',
+                                contenido: contenido
+                            });
+                        });
+                    }
+
                     doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
                     doc.setTextColor(0, 0, 0);
 
                     secciones.forEach((seccion, index) => {
-                        if (!seccion.trim()) return;
+                        if (!seccion.contenido) return;
 
+                        // Verificar espacio para nueva sección
                         if (yPos > 250) {
                             doc.addPage();
                             yPos = 20;
                         }
 
-                        const contenido = seccion.replace(/^[A-Z\s]+/, '').trim();
-
+                        // Título de sección
                         doc.setFont(undefined, 'bold');
                         doc.setFontSize(12);
-                        doc.text(titulos[index] || 'Sección', 15, yPos);
-                        yPos += 8;
+                        doc.setTextColor(15, 94, 156);
+                        doc.text(seccion.titulo, margenIzq, yPos);
+                        yPos += 10;
 
+                        // IMPORTANTE: Resetear todos los estilos antes del contenido
                         doc.setFont(undefined, 'normal');
                         doc.setFontSize(10);
+                        doc.setTextColor(0, 0, 0);
 
-                        const palabras = contenido.split(' ');
-                        let linea = '';
+                        // Dividir por párrafos (saltos de línea dobles)
+                        const parrafos = seccion.contenido
+                            .split(/\n\n+/)
+                            .map(p => p.replace(/\n/g, ' ').trim())
+                            .filter(p => p.length > 0);
 
-                        for (const palabra of palabras) {
-                            const lineaPrueba = linea + (linea ? ' ' : '') + palabra;
-                            const width = doc.getStringUnitWidth(lineaPrueba) * 10 / doc.internal.scaleFactor;
+                        parrafos.forEach(parrafo => {
+                            // Verificar espacio antes de cada párrafo
+                            if (yPos > 275) {
+                                doc.addPage();
+                                yPos = 20;
+                                // Resetear estilos después de nueva página
+                                doc.setFont(undefined, 'normal');
+                                doc.setFontSize(10);
+                                doc.setTextColor(0, 0, 0);
+                            }
 
-                            if (width > 170) {
-                                doc.text(linea, 15, yPos);
-                                yPos += 6;
-                                linea = palabra;
+                            // Usar splitTextToSize para respetar el ancho de la página
+                            const lineas = doc.splitTextToSize(parrafo, anchoTexto);
 
-                                if (yPos > 270) {
+                            lineas.forEach(linea => {
+                                if (yPos > 275) {
                                     doc.addPage();
                                     yPos = 20;
+                                    // Resetear estilos después de nueva página
+                                    doc.setFont(undefined, 'normal');
+                                    doc.setFontSize(10);
+                                    doc.setTextColor(0, 0, 0);
                                 }
-                            } else {
-                                linea = lineaPrueba;
-                            }
-                        }
+                                doc.text(linea, margenIzq, yPos);
+                                yPos += 5;
+                            });
 
-                        if (linea) {
-                            doc.text(linea, 15, yPos);
-                            yPos += 6;
-                        }
+                            // Espacio entre párrafos
+                            yPos += 3;
+                        });
 
-                        yPos += 6;
+                        // Espacio entre secciones
+                        yPos += 5;
                     });
                 }
 
