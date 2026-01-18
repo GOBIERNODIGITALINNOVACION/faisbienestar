@@ -3,9 +3,13 @@
 [build]
   # Directory to publish (root for static sites)
   publish = "."
+  functions = "netlify/functions"
 
   # No build command needed for static site
   command = ""
+
+[functions]
+  node_bundler = "esbuild"
 
 # Custom headers for security and performance
 [[headers]]
