@@ -825,7 +825,7 @@
             select.disabled = false;
             select.innerHTML = '<option value="">Seleccione ciclo...</option>';
 
-            const ciclos = [...new Set(datosEstado.map(row => row['CICLO DEL RECURSO']))].filter(Boolean).sort();
+            const ciclos = [...new Set(datosEstado.map(row => row['CICLO DEL RECURSO']))].filter(Boolean).filter(c => Number(c) >= 2020).sort();
             ciclos.forEach(ciclo => {
                 const option = document.createElement('option');
                 option.value = ciclo;

@@ -1759,7 +1759,7 @@ V. ÁREAS DE OPORTUNIDAD Y RECOMENDACIONES`;
                     const ciclos = [...new Set(fullData
                         .map(item => item['CICLO DEL RECURSO'])
                         .filter(Boolean)
-                    )].sort((a, b) => b - a);
+                    )].filter(c => Number(c) >= 2020).sort((a, b) => b - a);
 
                     const programas = [...new Set(fullData
                         .map(item => item['PROGRAMA PRESUPUESTARIO'])
