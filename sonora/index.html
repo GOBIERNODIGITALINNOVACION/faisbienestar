@@ -20,9 +20,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap">
-<link rel="stylesheet" href="/estilos.css?v=20261104">
+<link rel="stylesheet" href="/estilos.css?v=20261104b">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "FAIS de Sonora: FISE del estado y FISMDF de sus municipios, 2020-2026", "description": "Monto aprobado y pagado del FISE de Sonora por año, obras, en qué se usó y el FISMDF de sus 72 municipios, según los reportes a Hacienda (SRFT).", "url": "https://faisbienestar.com/sonora/", "isAccessibleForFree": true, "license": "https://datos.gob.mx/libreusomx", "spatialCoverage": {"@type": "Place", "name": "Sonora, México"}, "temporalCoverage": "2020/2026", "creator": {"@type": "Organization", "name": "Gobierno Digital e Innovación", "url": "https://gobiernodigitaleinnovacion.com/"}}</script>
-<script src="/sitio.js?v=20261104"></script>
+<script src="/sitio.js?v=20261104b"></script>
 </head>
 <body>
 <header class="portada">
@@ -46,11 +46,12 @@
 <section aria-labelledby="t-cerrado">
   <div class="titulo"><h2 id="t-cerrado">2025, el último año cerrado</h2><p>FISE · reporte al 3er trimestre de 2026</p></div>
   <div class="kpis">
-    <div class="kpi"><div class="rotulo">Aprobado</div><div class="cifra num">$166.3<small>millones</small></div><div class="contexto">Lugar <em>22</em> de 32 estados</div></div>
+    <div class="kpi"><div class="rotulo">Aprobado en obras</div><div class="cifra num">$166.3<small>millones</small></div><div class="contexto">Lugar <em>22</em> de 32 estados</div></div>
 <div class="kpi"><div class="rotulo">Pagado</div><div class="cifra num">82.1 %</div><div class="contexto">$136.6 millones. Mediana de los estados: <em>95.9 %</em></div></div>
 <div class="kpi"><div class="rotulo">Obras</div><div class="cifra num">52</div><div class="contexto"><em>48</em> terminadas y 4 en ejecución; 2 canceladas aparte</div></div>
 <div class="kpi"><div class="rotulo">En qué se usó más</div><div class="cifra num" style="font-size:24px;line-height:1.15">Agua y saneamiento</div><div class="contexto"><em>82 %</em> del monto aprobado</div></div>
   </div>
+  <p class="fuente nota-aprobado">Aprobado en obras: suma de las obras que el gobierno de Sonora registró en Hacienda; no es lo asignado.</p>
   <div class="en-curso">
     <h3>2026, en curso</h3>
     <p>Al 3er trimestre de 2026, el gobierno de Sonora tiene registradas <b>10 obras</b> del FISE 2026 con <b>$94.8 millones</b> aprobados y lleva pagado el <b>13.1 %</b>. En todo el país hay 6,354 obras del FISE 2026 con $10,424.3 millones aprobados. Cuánto le transfirió Hacienda y cuánto reportó haber recibido está en la Plataforma. El año 2026 cierra con el reporte de cierre (5.º trimestre), que Hacienda publica a mediados de 2027.</p>
@@ -61,7 +62,7 @@
   <div class="titulo"><h2 id="t-serie">Año por año</h2><p>FISE de Sonora, 2020 a 2026</p></div>
   <div class="tabla-scroll"><table class="serie">
 <caption>Millones de pesos. Obras sin las canceladas. % pagado = pagado entre aprobado; pasa de 100 % cuando se pagó más de lo aprobado.</caption>
-<thead><tr><th>Año</th><th>Obras</th><th>Aprobado</th><th>Pagado</th><th>% pagado</th><th class="barra-celda">Pagado de lo aprobado</th></tr></thead>
+<thead><tr><th>Año</th><th>Obras</th><th>Aprobado en obras</th><th>Pagado</th><th>% pagado</th><th class="barra-celda">Pagado de lo aprobado</th></tr></thead>
 <tbody>
 <tr><td>2020</td><td class="num">241</td><td class="num">$97.5</td><td class="num">$92.8</td><td class="num">95.2 %</td><td class="barra-celda"><div class="barra-dato" style="width:58.0%"><i style="width:95.1%"></i></div></td></tr>
 <tr><td>2021</td><td class="num">270</td><td class="num">$100.4</td><td class="num">$94.5</td><td class="num">94.1 %</td><td class="barra-celda"><div class="barra-dato" style="width:59.7%"><i style="width:94.1%"></i></div></td></tr>
@@ -117,7 +118,7 @@
   <div class="titulo"><h2 id="t-municipios">Los 72 municipios de Sonora</h2><p>FISMDF de 2025 · 56 con reporte, 16 sin reporte</p></div>
   <input class="filtro" id="filtro-municipios" type="search" placeholder="Busca tu municipio" aria-label="Busca tu municipio">
   <div class="tabla-scroll"><table class="municipios" id="tabla-municipios">
-    <thead><tr><th>Municipio</th><th>Aprobado (millones)</th><th>% pagado</th><th>Obras</th></tr></thead>
+    <thead><tr><th>Municipio</th><th>Aprobado en obras (millones)</th><th>% pagado</th><th>Obras</th></tr></thead>
     <tbody>
 <tr data-n="aconchi"><td><a href="/sonora/aconchi/">Aconchi</a></td><td class="num">$5.3</td><td class="num">100.0 %</td><td class="num">18</td></tr>
 <tr data-n="agua prieta"><td><a href="/sonora/agua-prieta/">Agua Prieta</a></td><td class="num">$23.3</td><td class="num">96.9 %</td><td class="num">34</td></tr>

@@ -79,6 +79,7 @@ main section:last-child{border-bottom:0}
 .kpi .cifra small{font:500 15px var(--texto);color:var(--tenue);margin-left:4px}
 .kpi .contexto{margin-top:10px;font-size:14.5px;color:var(--tinta-2)}
 .kpi .contexto em{font-style:normal;font-weight:700;color:var(--tinta)}
+.nota-aprobado{margin-top:10px}
 
 .en-curso{margin-top:18px;background:var(--tarjeta);border:1px dashed var(--dato);border-radius:14px;padding:16px 18px}
 .en-curso h3{font:700 17px var(--texto);color:var(--dato)}
