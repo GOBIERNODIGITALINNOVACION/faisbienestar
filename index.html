@@ -1,258 +1,147 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es-MX">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portal Inteligente FAIS - Herramienta de análisis y gestión de recursos FAIS y FORTAMUN">
-    <title>Portal Inteligente FAIS | Ramo 33</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- TikTok Pixel Code Start -->
-    <script>
-    !function (w, d, t) {
-      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
-      var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
-      ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-
-      ttq.load('D5MJ79RC77UALNU7I4JG');
-      ttq.page();
-    }(window, document, 'ttq');
-    </script>
-    <!-- TikTok Pixel Code End -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FAIS por estado y municipio: obras y montos 2020-2026 | FAIS Bienestar</title>
+<meta name="description" content="Cuánto FAIS aprobó y pagó cada estado y municipio de México, año por año desde 2020, y en qué obras lo usó. Con los reportes a Hacienda.">
+<link rel="canonical" href="https://faisbienestar.com/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<meta property="og:site_name" content="FAIS Bienestar">
+<meta property="og:title" content="FAIS por estado y municipio: obras y montos 2020-2026 | FAIS Bienestar">
+<meta property="og:description" content="Cuánto FAIS aprobó y pagó cada estado y municipio de México, año por año desde 2020, y en qué obras lo usó. Con los reportes a Hacienda.">
+<meta property="og:url" content="https://faisbienestar.com/">
+<meta name="theme-color" content="#E4EBF0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F2A3A" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="/icono.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap">
+<link rel="stylesheet" href="/estilos.css?v=20261104">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "FAIS Bienestar", "url": "https://faisbienestar.com/", "inLanguage": "es-MX"}</script>
+<script src="/sitio.js?v=20261104"></script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">PORTAL INTELIGENTE FAIS</div>
-            <button class="nav-toggle" aria-label="Toggle navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-menu">
-                <li><a href="#inicio" class="nav-link active">PÁGINA PRINCIPAL</a></li>
-                <li><a href="#dashboard" class="nav-link">DASHBOARD</a></li>
-                <li><a href="#informes" class="nav-link">INFORMES FAIS</a></li>
-                <li><a href="https://datosestados.com/" class="nav-link" target="_blank">Datos Estados</a></li>
-                <li><a href="https://gobiernodigitaleinnovacion.com/" class="nav-link" target="_blank">EMPRESA</a></li>
-            </ul>
-        </div>
-    </nav>
+<header class="portada">
+  <div class="envoltura">
+    <div class="barra">
+      <a class="marca" href="/"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#173A4E"/><rect x="14" y="36" width="9" height="16" rx="2" fill="#8FA8B7"/><rect x="27.5" y="26" width="9" height="26" rx="2" fill="#D5E1E8"/><rect x="41" y="14" width="9" height="38" rx="2" fill="#C9973A"/></svg><span><b>FAIS Bienestar</b><span>Gobierno Digital e Innovación</span></span></a>
+      <nav class="menu" aria-label="Menú">
+        <a href="/#estados">Estados</a><a href="/#que-es">Qué es el FAIS</a><a href="/#normas">Normas</a>
+        <button class="tema" id="tema" type="button">Claro / oscuro</button>
+        <a class="ir" href="https://plataforma.gobiernodigitaleinnovacion.com/">Plataforma</a>
+      </nav>
+    </div>
+    <div class="cabeza">
+      <h1>¿Cuánto FAIS recibió tu municipio y en qué obras lo usó?</h1>
+      <p class="lead">Lo que cada estado y cada municipio aprobó y pagó del Fondo de Aportaciones para la Infraestructura Social, año por año desde 2020, con sus obras. Tomado de los reportes que entregan a Hacienda.</p>
+      <form class="buscador" id="buscar" role="search">
+        <label for="lugar">Busca tu estado o municipio</label>
+        <div class="fila"><input id="lugar" name="lugar" list="lugares" autocomplete="off" placeholder="Ej. Zapopan"><button type="submit">Ver</button></div>
+        <datalist id="lugares"></datalist>
+        <p class="nota" id="buscar-nota" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</header>
+<main class="envoltura">
+<section aria-labelledby="t-pais">
+  <div class="titulo"><h2 id="t-pais">El FAIS en todo el país</h2><p>Reporte de Hacienda al 3er trimestre de 2026</p></div>
+  <div class="kpis">
+    <div class="kpi"><div class="rotulo">Aprobado en 2025</div><div class="cifra num">$104,578.6<small>millones</small></div><div class="contexto">FISE de los estados: <em>14 %</em>; FISMDF de los municipios: <em>86 %</em></div></div>
+    <div class="kpi"><div class="rotulo">Pagado de 2025</div><div class="cifra num">93.2 %</div><div class="contexto">$97,448.5 millones</div></div>
+    <div class="kpi"><div class="rotulo">Obras de 2025</div><div class="cifra num">75,395</div><div class="contexto">Sin contar 1,755 canceladas</div></div>
+  </div>
+  <div class="en-curso">
+    <h3>2026, en curso</h3>
+    <p>Al 3er trimestre de 2026 hay <b>45,512 obras</b> con <b>$68,701.6 millones</b> aprobados, y se ha pagado el <b>45.6 %</b>. El año 2026 cierra con el reporte de cierre (5.º trimestre), que Hacienda publica a mediados de 2027.</p>
+  </div>
+</section>
 
-    <!-- Hero Section -->
-    <section id="inicio" class="hero">
-        <div class="hero-overlay"></div>
-        <div class="container hero-content">
-            <h1 class="hero-title">RAMO 33<br>FAIS Y FORTAMUN</h1>
-            <div class="hero-buttons">
-                <a href="#contacto" class="btn btn-primary" onclick="ttq.track('ClickButton');">SOLICITAR INFORMES</a>
-            </div>
-        </div>
-    </section>
+<section aria-labelledby="estados">
+  <div class="titulo"><h2 id="estados">Elige tu estado</h2><p>Dentro de cada estado están sus municipios</p></div>
+  <ul class="lugares">
+<li><a href="/aguascalientes/">Aguascalientes</a></li>
+<li><a href="/baja-california/">Baja California</a></li>
+<li><a href="/baja-california-sur/">Baja California Sur</a></li>
+<li><a href="/campeche/">Campeche</a></li>
+<li><a href="/chiapas/">Chiapas</a></li>
+<li><a href="/chihuahua/">Chihuahua</a></li>
+<li><a href="/ciudad-de-mexico/">Ciudad de México</a></li>
+<li><a href="/coahuila-de-zaragoza/">Coahuila</a></li>
+<li><a href="/colima/">Colima</a></li>
+<li><a href="/durango/">Durango</a></li>
+<li><a href="/mexico/">Estado de México</a></li>
+<li><a href="/guanajuato/">Guanajuato</a></li>
+<li><a href="/guerrero/">Guerrero</a></li>
+<li><a href="/hidalgo/">Hidalgo</a></li>
+<li><a href="/jalisco/">Jalisco</a></li>
+<li><a href="/michoacan-de-ocampo/">Michoacán</a></li>
+<li><a href="/morelos/">Morelos</a></li>
+<li><a href="/nayarit/">Nayarit</a></li>
+<li><a href="/nuevo-leon/">Nuevo León</a></li>
+<li><a href="/oaxaca/">Oaxaca</a></li>
+<li><a href="/puebla/">Puebla</a></li>
+<li><a href="/queretaro/">Querétaro</a></li>
+<li><a href="/quintana-roo/">Quintana Roo</a></li>
+<li><a href="/san-luis-potosi/">San Luis Potosí</a></li>
+<li><a href="/sinaloa/">Sinaloa</a></li>
+<li><a href="/sonora/">Sonora</a></li>
+<li><a href="/tabasco/">Tabasco</a></li>
+<li><a href="/tamaulipas/">Tamaulipas</a></li>
+<li><a href="/tlaxcala/">Tlaxcala</a></li>
+<li><a href="/veracruz-de-ignacio-de-la-llave/">Veracruz</a></li>
+<li><a href="/yucatan/">Yucatán</a></li>
+<li><a href="/zacatecas/">Zacatecas</a></li>
+  </ul>
+</section>
 
-    <!-- Power BI Dashboard Section -->
-    <section id="dashboard" class="section dashboard-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>RAMO 33: EVOLUCIÓN Y DESEMPEÑO 2020 - 2025</h2>
-                <p>Dashboard interactivo con análisis detallado de recursos FAIS</p>
-            </div>
-            <div class="powerbi-container">
-                <iframe
-                    title="Dashboard FAIS Principal"
-                    src="https://app.fabric.microsoft.com/view?r=eyJrIjoiOWQ1Mzk2ZWYtOGI0Zi00MjA5LWEyNTQtOTJiOGMwMWU0YjY0IiwidCI6ImIwODMwZjgyLWM0OGQtNGU5ZC1iYTc0LTVlMjVmYmYzZmIzYiIsImMiOjR9"
-                    frameborder="0"
-                    allowFullScreen="true">
-                </iframe>
-            </div>
-        </div>
-    </section>
+<section aria-labelledby="que-es">
+  <div class="titulo"><h2 id="que-es">Qué es el FAIS</h2></div>
+  <p class="texto">El Fondo de Aportaciones para la Infraestructura Social (FAIS) es dinero federal del Ramo 33 que llega cada año a estados y municipios. Se reparte en dos: el <b>FISE</b>, que ejerce el gobierno del estado, y el <b>FISMDF</b>, que ejerce cada municipio (y cada alcaldía de la Ciudad de México).</p>
+  <p class="texto">Solo puede usarse en obras y acciones que beneficien directamente a población en pobreza extrema, a localidades con alto o muy alto rezago social y a las zonas de atención prioritaria (Ley de Coordinación Fiscal, artículo 33). Agua potable, drenaje, calles, electrificación y vivienda son lo más común.</p>
+</section>
 
-    <!-- Video Section -->
-    <section id="video" class="section video-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Video Explicativo</h2>
-                <p>Conoce las funcionalidades del dashboard FAIS</p>
-            </div>
-            <div class="video-container-small">
-                <iframe
-                    src="https://www.youtube.com/embed/XdMGKZpugeU?rel=0&modestbranding=1"
-                    title="Dashboard RAMO 33"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
-            </div>
-        </div>
-    </section>
+<section aria-labelledby="t-plataforma">
+  <div class="plataforma">
+    <div>
+      <h2 id="t-plataforma">¿Trabajas en un gobierno estatal o municipal?</h2>
+      <ul>
+        <li>El mapa de las obras del FAIS de tu estado o municipio, cada una con contratista, contrato, avance y fechas.</li>
+        <li>Lo transferido, lo reportado y lo registrado en obras, lado a lado.</li>
+        <li>Tus finanzas, pobreza, empleo y economía en el mismo lugar, con focos rojos.</li>
+      </ul>
+    </div>
+    <div class="acciones">
+      <a class="boton oro" href="https://plataforma.gobiernodigitaleinnovacion.com/">Conoce la Plataforma</a>
+      <p class="precio">Licencia individual desde $1,999 al mes. Los primeros 7 días son gratis.</p>
+    </div>
+  </div>
+</section>
 
-    <!-- GobiFAIS Section -->
-    <section id="gobifais" class="section feature-section">
-        <div class="container">
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Datos Estados</h3>
-                    <p>Plataforma de datos y análisis para estados y municipios de México</p>
-                    <a href="https://datosestados.com/" class="btn btn-outline" target="_blank">Acceder a Datos Estados</a>
-                </div>
-            </div>
-        </div>
-    </section>
+<section aria-labelledby="normas">
+  <div class="titulo"><h2 id="normas">Normas del FAIS</h2></div>
+  <div class="normas">
+    <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LCF.pdf" target="_blank" rel="noopener"><b>Ley de Coordinación Fiscal</b><span>Artículos 32 a 35: reparto y destino del FAIS</span></a>
+    <a href="https://dof.gob.mx/nota_detalle.php?codigo=5780779&amp;fecha=24/02/2026" target="_blank" rel="noopener"><b>Lineamientos del FAIS 2026</b><span>Diario Oficial, 24 de febrero de 2026</span></a>
+    <a href="https://dof.gob.mx/nota_detalle.php?codigo=5773718&amp;fecha=21/11/2025" target="_blank" rel="noopener"><b>Zonas de Atención Prioritaria 2026</b><span>Diario Oficial, 21 de noviembre de 2025</span></a>
+    <a href="https://www.gob.mx/bienestar/documentos/normateca-fais" target="_blank" rel="noopener"><b>Normateca FAIS</b><span>Secretaría de Bienestar</span></a>
+    <a href="https://www.finanzaspublicas.hacienda.gob.mx/es/Finanzas_Publicas/Informes_al_Congreso_de_la_Union" target="_blank" rel="noopener"><b>Informes trimestrales</b><span>Secretaría de Hacienda</span></a>
+  </div>
+</section>
 
-    <!-- Informes FAIS Section -->
-    <section id="informes" class="section informes-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Generador de Informes FAIS</h2>
-                <p>Crea informes detallados a nivel estatal y municipal con datos actualizados</p>
-            </div>
-            <div class="informes-content">
-                <div class="informes-description">
-                    <h3>Informes Personalizados</h3>
-                    <ul class="features-list">
-                        <li>Análisis por estado y municipio</li>
-                        <li>Evolución de recursos 2020-2025</li>
-                        <li>Clasificación por tipo de proyecto</li>
-                        <li>Datos oficiales de SHCP</li>
-                    </ul>
-                </div>
-                <div class="informes-action">
-                    <a href="https://stindicadores.blob.core.windows.net/contenedor-analisis-fais/faisporestado.html?sp=r&st=2024-11-04T17:52:07Z&se=2028-11-05T01:52:07Z&spr=https&sv=2022-11-02&sr=c&sig=OE9IIEtUgY%2FbpGO58J6k61trE1OEBXGYy9gHqvZzYUw%3D"
-                       class="btn btn-primary btn-large"
-                       target="_blank"
-                       onclick="ttq.track('ClickButton');">
-                        GENERAR INFORME
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Normatividad Section -->
-    <section id="normatividad" class="section normatividad-section">
-        <div class="container">
-            <h2>Marco Normativo</h2>
-            <div class="docs-grid">
-                <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LCF.pdf" class="doc-card" target="_blank" rel="noopener noreferrer">
-                    <span class="doc-icon">📄</span>
-                    <span class="doc-title">Ley de Coordinación Fiscal</span>
-                </a>
-                <a href="https://www.gob.mx/bienestar/documentos/normateca-fais" class="doc-card" target="_blank" rel="noopener noreferrer">
-                    <span class="doc-icon">📚</span>
-                    <span class="doc-title">Normateca FAIS</span>
-                </a>
-                <a href="https://www.dof.gob.mx/nota_detalle.php?codigo=5750013&fecha=24/02/2025#gsc.tab=0" class="doc-card" target="_blank" rel="noopener noreferrer">
-                    <span class="doc-icon">📋</span>
-                    <span class="doc-title">Lineamientos FAIS 2025</span>
-                </a>
-                <a href="https://dof.gob.mx/nota_detalle.php?codigo=5773718&fecha=21/11/2025#gsc.tab=0" class="doc-card" target="_blank" rel="noopener noreferrer">
-                    <span class="doc-icon">🗺️</span>
-                    <span class="doc-title">ZAP 2026</span>
-                </a>
-                <a href="https://www.finanzaspublicas.hacienda.gob.mx/es/Finanzas_Publicas/Informes_al_Congreso_de_la_Union" class="doc-card" target="_blank" rel="noopener noreferrer">
-                    <span class="doc-icon">📊</span>
-                    <span class="doc-title">SHCP - Informes Trimestrales</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contacto" class="section contact-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Solicitar Informes y Asistencia</h2>
-                <p>¿Necesitas capacitación, consultoría o tienes dudas sobre FAIS?</p>
-            </div>
-            <div class="contact-form-container">
-                <form name="solicitud-fais" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/gracias.html" class="contact-form" onsubmit="ttq.track('Lead');">
-                    <input type="hidden" name="form-name" value="solicitud-fais">
-                    <p class="hidden">
-                        <label>No llenar si eres humano: <input name="bot-field"></label>
-                    </p>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="nombre">Nombre Completo *</label>
-                            <input type="text" id="nombre" name="nombre" required placeholder="Juan Pérez">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Correo Electrónico *</label>
-                            <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="telefono">Teléfono</label>
-                            <input type="tel" id="telefono" name="telefono" placeholder="5512345678">
-                        </div>
-                        <div class="form-group">
-                            <label for="institucion">Institución/Municipio</label>
-                            <input type="text" id="institucion" name="institucion" placeholder="Municipio de...">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="tipo-solicitud">Tipo de Solicitud *</label>
-                        <select id="tipo-solicitud" name="tipo-solicitud" required>
-                            <option value="">Selecciona una opción</option>
-                            <option value="capacitacion">Capacitación</option>
-                            <option value="consultoria">Consultoría</option>
-                            <option value="duda-tecnica">Duda Técnica</option>
-                            <option value="soporte">Soporte Técnico</option>
-                            <option value="informacion">Solicitud de Información</option>
-                            <option value="otro">Otro</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="mensaje">Mensaje *</label>
-                        <textarea id="mensaje" name="mensaje" rows="5" required placeholder="Describe tu solicitud o consulta..."></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-large">Enviar Solicitud</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Portal Inteligente FAIS</h4>
-                    <p>Herramienta de análisis y gestión de recursos del Ramo 33</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Enlaces Rápidos</h4>
-                    <ul class="footer-links">
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#dashboard">Dashboard</a></li>
-                        <li><a href="#informes">Informes</a></li>
-                        <li><a href="#contacto">Contacto</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Desarrollado por</h4>
-                    <a href="https://gobiernodigitaleinnovacion.com/" target="_blank" class="footer-brand">
-                        Gobierno Digital e Innovación
-                    </a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Portal Inteligente FAIS. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+<section>
+  <p class="fuente">Fuente: Secretaría de Hacienda, Sistema de Recursos Federales Transferidos (SRFT), reportes trimestrales del FAIS hasta el 3er trimestre de 2026. Montos sin las obras canceladas. Actualizado el 4 de noviembre de 2026.</p>
+  <p class="fuente">Aviso: en 156 municipios hay obras que reportan el FAIS municipal en dos líneas (una de Banobras) y por ahora solo contamos una; al aprobado de 2025 le faltan $87.0 millones. Lo estamos corrigiendo y cada municipio afectado lo dice en su página.</p>
+</section>
+</main>
+<footer>
+  <div class="envoltura">
+    <div><b>FAIS Bienestar</b><p>Cifras de los reportes que estados y municipios entregan a Hacienda (SRFT).</p></div>
+    <div><p>Un servicio de <a href="https://gobiernodigitaleinnovacion.com/">Gobierno Digital e Innovación</a></p>
+    <p><a href="https://plataforma.gobiernodigitaleinnovacion.com/">Plataforma Gobierno Digital e Innovación</a> · <a href="/#normas">Normas del FAIS</a></p></div>
+  </div>
+</footer>
 </body>
 </html>

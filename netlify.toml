@@ -1,76 +1,69 @@
-# Netlify Configuration File
+# FAIS Bienestar (faisbienestar.com). Sitio estatico: las paginas las genera
+# Lokus Data Platform/scripts/generar_faisbienestar.py desde la capa Oro; aqui no hay build.
 
 [build]
-  # Directory to publish (root for static sites)
   publish = "."
-  functions = "netlify/functions"
-
-  # No build command needed for static site
   command = ""
 
-[functions]
-  node_bundler = "esbuild"
-
-# Custom headers for security and performance
+# Seguridad
 [[headers]]
   for = "/*"
   [headers.values]
-    # Security headers
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
-    X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
-    # Cache static assets
-    Cache-Control = "public, max-age=31536000, immutable"
+# Estilos, script e icono: un dia (las paginas los piden con ?v=VERSION_ESTATICOS del generador)
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
 
 [[headers]]
-  for = "/*.html"
+  for = "/*.js"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "public, max-age=86400"
 
 [[headers]]
-  for = "/index.html"
+  for = "/icono.svg"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "public, max-age=86400"
 
-# Redirect rules
+# Paginas del sitio viejo (Power BI y generador de informes) -> portada
+[[redirects]]
+  from = "/faisporestado.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/INDICADORESANALISIS.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/indicadoresanalisis.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/analisis-fais.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/gracias.html"
+  to = "/"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/pagina-principal"
   to = "/"
   status = 301
   force = true
 
-[[redirects]]
-  from = "/página-principal"
-  to = "/"
-  status = 301
-  force = true
-
-# 404 redirect
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 404
-
-# SSL/HTTPS settings (automatic with Netlify)
-[build.environment]
-  NODE_VERSION = "18"
-
-# Forms (if you add contact forms later)
-[build.processing]
-  skip_processing = false
-
-[build.processing.css]
-  bundle = true
-  minify = true
-
-[build.processing.js]
-  bundle = true
-  minify = true
-
-[build.processing.html]
-  pretty_urls = true
-
-[build.processing.images]
-  compress = true
+# Lo que no existe cae en /404.html (Netlify lo sirve solo, con estado 404)

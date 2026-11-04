@@ -1,0 +1,184 @@
+/* FAIS Bienestar (faisbienestar.com), maqueta aprobada 2026-11-04 (Lokus Data Platform/docs/faisbienestar). Paleta y letra de la Plataforma Gobierno Digital e Innovacion
+   (landing.css) para que el paso de un sitio al otro se sienta como la misma casa. Modo claro y oscuro. */
+:root{
+  --papel:#EEF1F3; --tarjeta:#FFFFFF; --tinta:#14212B; --tinta-2:#3B4A57; --tenue:#5D6A76; --borde:#D3DBE1;
+  --portada:#E4EBF0; --portada-borde:#CBD5DC;
+  --oro:#B8862B; --oro-hover:#C9973A; --sobre-oro:#1B1406; --oro-texto:#8E6720;
+  --dato:#1F6F8B; --dato-suave:#C9DCE4; --verde:#1E7B4A; --rojo:#B3261E;
+  --pie:#0F2A3A; --pie-texto:#EAF1F5; --pie-tenue:#93AABA;
+  --aviso:#FFF4C2; --aviso-borde:#E2C64B; --aviso-texto:#4A3B00;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --texto:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --papel:#0B1922; --tarjeta:#11242F; --tinta:#E4ECF1; --tinta-2:#B7C5CE; --tenue:#8FA1AD; --borde:#24394A;
+  --portada:#0F2A3A; --portada-borde:rgba(213,225,232,.16);
+  --oro:#C9973A; --oro-hover:#D9A84A; --oro-texto:#C9973A;
+  --dato:#62B3CF; --dato-suave:#1F4252; --verde:#62C28E; --rojo:#E5776D;
+  --aviso:#3A3210; --aviso-borde:#7A6A1E; --aviso-texto:#F4E7A6; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --papel:#0B1922; --tarjeta:#11242F; --tinta:#E4ECF1; --tinta-2:#B7C5CE; --tenue:#8FA1AD; --borde:#24394A;
+  --portada:#0F2A3A; --portada-borde:rgba(213,225,232,.16);
+  --oro:#C9973A; --oro-hover:#D9A84A; --oro-texto:#C9973A;
+  --dato:#62B3CF; --dato-suave:#1F4252; --verde:#62C28E; --rojo:#E5776D;
+  --aviso:#3A3210; --aviso-borde:#7A6A1E; --aviso-texto:#F4E7A6; color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--papel);color:var(--tinta);font:400 17px/1.55 var(--texto);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--oro);outline-offset:2px;border-radius:4px}
+.num{font-variant-numeric:tabular-nums}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+.envoltura{max-width:1120px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+
+/* barra y portada */
+.portada{background:var(--portada);border-bottom:1px solid var(--portada-borde)}
+.barra{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px;flex-wrap:wrap}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none}
+.marca svg{width:32px;height:32px;flex:none}
+.marca b{display:block;font:750 17px/1.1 var(--display);font-variation-settings:"wdth" 112}
+.marca span{display:block;font-size:12.5px;color:var(--tenue)}
+.menu{display:flex;align-items:center;gap:4px 18px;flex-wrap:wrap;font-size:15px}
+.menu a{text-decoration:none;color:var(--tinta-2)}
+.menu a:hover{color:var(--tinta)}
+.menu .ir{font-weight:650;color:var(--sobre-oro);background:var(--oro);padding:8px 14px;border-radius:999px}
+.menu .ir:hover{background:var(--oro-hover);color:var(--sobre-oro)}
+.tema{font:inherit;font-size:14px;background:none;border:1px solid var(--portada-borde);color:var(--tinta-2);border-radius:999px;padding:6px 12px;cursor:pointer}
+
+.cabeza{padding-block:12px 40px}
+.migas{font-size:14px;color:var(--tenue);margin-bottom:14px}
+.migas a{color:var(--tenue)}
+.cabeza h1{font:720 clamp(34px,5.6vw,56px)/1.02 var(--display);font-variation-settings:"wdth" 114;letter-spacing:-.02em}
+.cabeza .lead{margin-top:14px;max-width:62ch;color:var(--tinta-2);font-size:clamp(16px,1.5vw,18.5px)}
+
+/* buscador de la portada */
+.buscador{margin-top:26px;max-width:560px}
+.buscador label{display:block;font-size:14px;font-weight:600;margin-bottom:8px}
+.buscador .fila{display:flex;gap:8px}
+.buscador input{flex:1;min-width:0;font:500 18px/1.2 var(--texto);padding:14px 16px;border-radius:12px;border:1px solid var(--portada-borde);background:var(--tarjeta);color:var(--tinta)}
+.buscador input:focus{outline:none;border-color:var(--oro);box-shadow:0 0 0 3px rgba(201,151,58,.28)}
+.buscador button{font:650 16px var(--texto);border:0;border-radius:12px;padding:0 20px;background:var(--oro);color:var(--sobre-oro);cursor:pointer}
+.buscador .nota{margin-top:8px;font-size:14px;color:var(--tenue);min-height:1.4em}
+
+/* secciones */
+main section{padding-block:36px;border-bottom:1px solid var(--borde)}
+main section:last-child{border-bottom:0}
+.titulo{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;margin-bottom:18px}
+.titulo h2{font:700 clamp(22px,2.6vw,28px)/1.15 var(--display);font-variation-settings:"wdth" 108}
+.titulo p{color:var(--tenue);font-size:15px}
+.texto{max-width:68ch;color:var(--tinta-2)}
+.texto + .texto{margin-top:12px}
+
+/* tarjetas de cifras */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.kpi{background:var(--tarjeta);border:1px solid var(--borde);border-radius:14px;padding:16px 18px}
+.kpi .rotulo{font-size:14px;color:var(--tenue);font-weight:600}
+.kpi .cifra{margin-top:6px;font:720 clamp(28px,3.4vw,36px)/1 var(--display);font-variation-settings:"wdth" 104}
+.kpi .cifra small{font:500 15px var(--texto);color:var(--tenue);margin-left:4px}
+.kpi .contexto{margin-top:10px;font-size:14.5px;color:var(--tinta-2)}
+.kpi .contexto em{font-style:normal;font-weight:700;color:var(--tinta)}
+
+.en-curso{margin-top:18px;background:var(--tarjeta);border:1px dashed var(--dato);border-radius:14px;padding:16px 18px}
+.en-curso h3{font:700 17px var(--texto);color:var(--dato)}
+.en-curso p{margin-top:6px;color:var(--tinta-2);max-width:80ch}
+.en-curso b{color:var(--tinta)}
+
+/* serie por anio: tabla con barra */
+.serie{width:100%;border-collapse:collapse;background:var(--tarjeta);border:1px solid var(--borde);border-radius:14px;overflow:hidden;font-size:15.5px}
+.serie th,.serie td{padding:10px 14px;text-align:right;border-bottom:1px solid var(--borde);white-space:nowrap}
+.serie th{font-size:13.5px;color:var(--tenue);font-weight:600;background:var(--papel)}
+.serie th:first-child,.serie td:first-child{text-align:left}
+.serie tr:last-child td{border-bottom:0}
+.serie td.barra-celda{width:40%;min-width:140px}
+.serie .curso td{color:var(--tenue)}
+.serie .curso td:first-child small{display:block;font-size:12.5px}
+.barra-dato{position:relative;height:14px;border-radius:7px;background:var(--dato-suave)}
+.barra-dato i{position:absolute;inset:0 auto 0 0;border-radius:7px;background:var(--dato)}
+.leyenda{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:14px;color:var(--tenue)}
+.leyenda span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.leyenda .l-apr::before{background:var(--dato-suave)}
+.leyenda .l-pag::before{background:var(--dato)}
+.tabla-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+/* en que se uso */
+.reparto{display:grid;gap:10px;max-width:720px}
+.reparto .item{display:grid;grid-template-columns:minmax(120px,220px) 1fr 64px;gap:12px;align-items:center;font-size:15.5px}
+.reparto .item .barra-dato{height:12px}
+.reparto .item b{text-align:right}
+
+/* obras */
+.obras{display:grid;gap:12px}
+.obra{background:var(--tarjeta);border:1px solid var(--borde);border-radius:14px;padding:14px 18px;display:grid;grid-template-columns:1fr auto;gap:4px 18px}
+.obra h3{font:650 16.5px/1.35 var(--texto)}
+.obra .donde{font-size:14px;color:var(--tenue);grid-column:1}
+.obra .monto{grid-column:2;grid-row:1 / span 2;text-align:right;font:700 18px var(--display)}
+.obra .monto small{display:block;font:500 13px var(--texto);color:var(--tenue)}
+.estatus{display:inline-block;font-size:12.5px;font-weight:650;padding:2px 8px;border-radius:999px;border:1px solid var(--borde);margin-left:6px}
+.estatus.t{color:var(--verde);border-color:currentColor}
+.estatus.e{color:var(--dato);border-color:currentColor}
+.candado{margin-top:12px;background:var(--tarjeta);border:1px solid var(--borde);border-radius:14px;padding:14px 18px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
+.candado p{color:var(--tinta-2)}
+
+/* llamado a la Plataforma */
+.plataforma{background:var(--pie);color:var(--pie-texto);border-radius:18px;padding:clamp(20px,3vw,32px);display:grid;gap:18px}
+@media (min-width:860px){.plataforma{grid-template-columns:3fr 2fr;align-items:center}}
+.plataforma h2{font:720 clamp(24px,3vw,32px)/1.1 var(--display);font-variation-settings:"wdth" 110}
+.plataforma ul{margin:12px 0 0;padding-left:20px;color:#C9D7E0}
+.plataforma li+li{margin-top:6px}
+.plataforma .acciones{display:grid;gap:10px}
+.boton{display:inline-block;text-align:center;text-decoration:none;font-weight:650;padding:13px 18px;border-radius:12px}
+.boton.oro{background:var(--oro);color:var(--sobre-oro)}
+.boton.oro:hover{background:var(--oro-hover)}
+.boton.linea{border:1px solid var(--pie-tenue);color:var(--pie-texto)}
+.boton.linea-claro{border:1px solid var(--borde);color:var(--tinta)}
+.plataforma .precio{font-size:14px;color:var(--pie-tenue);text-align:center}
+
+/* listas de lugares */
+.lugares{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px 18px;list-style:none;padding:0;margin:0}
+.lugares a{text-decoration:none;color:var(--tinta-2)}
+.lugares a:hover{color:var(--tinta);text-decoration:underline}
+.lugares .activo a{color:var(--dato);font-weight:650}
+.municipios{width:100%;border-collapse:collapse;font-size:15px}
+.municipios th,.municipios td{padding:8px 10px;border-bottom:1px solid var(--borde);text-align:right;white-space:nowrap}
+.municipios th:first-child,.municipios td:first-child{text-align:left;white-space:normal}
+.municipios th{font-size:13.5px;color:var(--tenue);font-weight:600;position:sticky;top:0;background:var(--papel)}
+.municipios td a{text-decoration:none}
+.municipios td a:hover{text-decoration:underline}
+.municipios .activo a{color:var(--dato);font-weight:650}
+.municipios .sin td{color:var(--tenue)}
+.filtro{font:500 16px var(--texto);padding:10px 14px;border-radius:10px;border:1px solid var(--borde);background:var(--tarjeta);color:var(--tinta);width:min(100%,360px);margin-bottom:12px}
+
+/* normas */
+.normas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.normas a{display:block;background:var(--tarjeta);border:1px solid var(--borde);border-radius:12px;padding:14px 16px;text-decoration:none}
+.normas a:hover{border-color:var(--oro)}
+.normas b{display:block}
+.normas span{font-size:14px;color:var(--tenue)}
+
+.fuente{font-size:14px;color:var(--tenue);max-width:90ch}
+.fuente + .fuente{margin-top:6px}
+
+footer{background:var(--pie);color:var(--pie-texto);margin-top:24px}
+footer .envoltura{padding-block:28px;display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;font-size:14.5px}
+footer a{color:var(--pie-texto)}
+footer p{color:var(--pie-tenue)}
+
+@media (max-width:620px){
+  .obra{grid-template-columns:1fr}
+  .obra .monto{grid-column:1;grid-row:auto;text-align:left}
+  .reparto .item{grid-template-columns:1fr 56px}
+  .reparto .item .barra-dato{grid-column:1 / -1;grid-row:2}
+  .serie td.barra-celda{display:none}
+  .serie th.barra-celda{display:none}
+  .serie{font-size:14px}
+  .serie th,.serie td{padding:9px 7px}
+  .serie th{font-size:12.5px}
+  .serie .curso td:first-child small{font-size:11.5px;white-space:normal}
+}
+
+/* aviso de Banobras y notas de tabla */
+.aviso{margin:0 0 14px;background:var(--aviso);color:var(--aviso-texto);border:1px solid var(--aviso-borde);border-radius:12px;padding:12px 16px;font-size:15px;max-width:90ch}
+.marca-aviso{color:var(--oro-texto);font-weight:700}
+.serie caption{caption-side:bottom;text-align:left;padding-top:10px;font-size:14px;color:var(--tenue)}
