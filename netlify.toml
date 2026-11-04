@@ -66,4 +66,17 @@
   status = 301
   force = true
 
+# Pagina del sitio de Google Sites (2024) que Google todavia tiene registrada
+[[redirects]]
+  from = "/página-principal"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/p%C3%A1gina-principal"
+  to = "/"
+  status = 301
+  force = true
+
 # Lo que no existe cae en /404.html (Netlify lo sirve solo, con estado 404)
