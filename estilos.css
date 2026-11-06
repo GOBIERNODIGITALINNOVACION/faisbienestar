@@ -135,6 +135,18 @@ main section:last-child{border-bottom:0}
 .boton.linea{border:1px solid var(--pie-tenue);color:var(--pie-texto)}
 .boton.linea-claro{border:1px solid var(--borde);color:var(--tinta)}
 .plataforma .precio{font-size:14px;color:var(--pie-tenue);text-align:center}
+/* video del bloque de la Plataforma: imagen propia y, al dar clic, el reproductor (sitio.js) */
+.video,.video-marco{display:block;position:relative;width:100%;aspect-ratio:16/9;margin-top:18px;border-radius:12px;overflow:hidden;background:#0B1922}
+.video{padding:0;border:1px solid var(--pie-tenue);cursor:pointer;font:inherit;color:#fff;text-align:left}
+.video img{display:block;width:100%;height:100%;object-fit:cover}
+.video .play{position:absolute;left:50%;top:46%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:var(--oro);box-shadow:0 8px 26px rgba(0,0,0,.35);transition:transform .15s}
+.video .play::after{content:"";position:absolute;left:30px;top:22px;border-style:solid;border-width:16px 0 16px 25px;border-color:transparent transparent transparent var(--sobre-oro)}
+.video:hover .play{background:var(--oro-hover);transform:scale(1.06)}
+.video .pie-video{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 12px;background:linear-gradient(transparent,rgba(8,20,28,.88));font-weight:650;font-size:15px;line-height:1.3}
+.video-marco iframe{display:block;width:100%;height:100%;border:0}
+@media (max-width:600px){.video .play{top:38%;width:58px;height:58px;margin:-29px 0 0 -29px}
+  .video .play::after{left:22px;top:16px;border-width:13px 0 13px 20px}
+  .video .pie-video{font-size:14px;padding:22px 12px 10px}}
 
 /* listas de lugares */
 .lugares{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px 18px;list-style:none;padding:0;margin:0}

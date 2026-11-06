@@ -1,4 +1,4 @@
-// FAIS Bienestar: modo claro/oscuro, buscador de la portada (lugares.json) y filtro de municipios del estado.
+// FAIS Bienestar: modo claro/oscuro, buscador de la portada (lugares.json), filtro de municipios del estado y video.
 (function () {
   try {
     var t = localStorage.getItem("tema");
@@ -60,6 +60,22 @@
         });
       });
     }
+
+    // Video del bloque de la Plataforma: la página no carga nada de YouTube hasta que se da clic
+    document.querySelectorAll("button.video[data-video]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var marco = document.createElement("div");
+        marco.className = "video-marco";
+        var f = document.createElement("iframe");
+        f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(b.getAttribute("data-video")) +
+          "?autoplay=1&rel=0&cc_lang_pref=es";
+        f.title = "FAIS Bienestar y la Plataforma";
+        f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+        f.allowFullscreen = true;
+        marco.appendChild(f);
+        b.replaceWith(marco);
+      });
+    });
 
     // Filtro de la tabla de municipios del estado
     var filtro = document.getElementById("filtro-municipios");
